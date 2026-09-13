@@ -1,0 +1,22 @@
+# Cloudflare Pages headers.
+# Fonts and images are content-stable, so they cache for a year.
+# CSS and JS are NOT fingerprinted, so they get a short TTL — otherwise a
+# deploy would take up to a year to reach anyone who had already visited.
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()

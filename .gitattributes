@@ -1,0 +1,7 @@
+# Keep LF everywhere. Cloudflare parses _headers line by line, and a stray
+# CR would end up inside the header values.
+* text=auto eol=lf
+
+*.woff2 binary
+*.png   binary
+*.ico   binary

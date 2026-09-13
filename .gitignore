@@ -1,0 +1,12 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / local tooling
+.claude/
+.vscode/
+.idea/
+
+# The site has no dependencies; this just keeps stray installs out.
+node_modules/

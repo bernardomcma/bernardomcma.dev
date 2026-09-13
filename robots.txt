@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Source documents, not site content.
+Disallow: /PROMPT.MD
+Disallow: /README.md
+
+Sitemap: https://bernardomcma.dev/sitemap.xml
