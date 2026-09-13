@@ -38,7 +38,7 @@ assets/
   css/main.css        All styling. Design tokens are at the top.
   js/main.js          All interaction.
   fonts/              Three self-hosted WOFF2 files
-  img/                Open Graph images and PWA icons
+  img/                Open Graph image and PWA icons
 favicon.svg           The M mark, drawn as geometry
 _headers              Cloudflare Pages caching and security headers
 robots.txt            Allows everything; points at the sitemap
@@ -53,6 +53,16 @@ between them shows only translated text. Edit both.**
 Section IDs (`#about`, `#projects`, `#education`, `#links`) are the same in both
 languages — that is what lets the EN/PT switch keep you in the same place. Don't
 rename them in one file only.
+
+### What is not translated
+
+**Software · Data · BI** is the positioning line, part of the identity rather
+than copy. It stays in English on the Portuguese page — in the hero, the
+`<title>`, the Open Graph and Twitter titles, and the image alt text. Both
+languages therefore share one Open Graph image.
+
+Descriptive prose *is* translated: the meta description, the About copy, and
+the `knowsAbout` keywords in the JSON-LD.
 
 ### Adding a project
 
@@ -105,7 +115,10 @@ hour so a deploy actually reaches people.
 
 `favicon.svg` is hand-written — an **M** drawn as four stroked segments rather
 than a font glyph, so it stays crisp at 16px. The raster icons (`favicon.ico`,
-`apple-touch-icon.png`, `assets/img/icon-*.png`) and the Open Graph images were
+`apple-touch-icon.png`, `assets/img/icon-*.png`) and the Open Graph image were
 generated once from that same geometry with a throwaway Python/Pillow script,
 kept out of the repository so the project stays dependency-free. Regenerating
 them is only necessary if the mark itself changes.
+
+Both languages share one Open Graph image, because **Software · Data · BI** is
+the positioning line and is not translated — see *Updating content* above.
