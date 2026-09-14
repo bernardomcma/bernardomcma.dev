@@ -98,9 +98,13 @@ existing one. Two shapes are available:
 - **`.band--lockin`** — takes over with the project's own palette by redefining
   `--paper` / `--ink` on the band. Use this when a project has a visual identity
   of its own worth showing.
-- **`.band--data`** — stays in the site's palette, one step darker, and uses the
-  `.spec` description list for a dense technical readout. Use this when the
-  interesting part is the architecture, not the interface.
+- **`.band--data`** — stays in the site's palette, one step darker, with a
+  `.flow` chain showing the architecture. Use this when the interesting part is
+  how the thing is put together rather than how it looks.
+
+Keep project write-ups at the level of "what it is and how it's built". The
+Financial PBI section deliberately says nothing about the shape of the report or
+the contents of the data behind it.
 
 Keep the repository as the primary action. A second destination (a store listing,
 a live demo) goes beside it as a plain `.btn`.

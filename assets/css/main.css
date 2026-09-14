@@ -491,48 +491,26 @@ a:hover .arrow { transform: translate(2px, -2px); }
 
 .band--data h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem); }
 
-.spec {
-  margin-top: 2rem;
-  border-top: 1px solid rgba(242, 237, 225, 0.14);
-}
-
-.spec__row {
-  display: grid;
-  gap: 0.15rem 1.5rem;
-  padding-block: 0.85rem;
-  border-bottom: 1px solid rgba(242, 237, 225, 0.14);
-}
-
-@media (min-width: 620px) {
-  .spec__row { grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1.5rem; }
-}
-
-.spec__key {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.spec__val { font-size: 0.95rem; color: var(--ink); }
-.spec__val .num { font-family: var(--font-num); font-size: 0.9em; }
-.spec__val .sep { color: var(--ink-soft); padding-inline: 0.15em; }
-
-.pages {
+/* The architecture, at the only level of detail worth showing: data arrives
+   through bots, is persisted, processed, persisted again, then read. */
+.flow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.35rem;
+  align-items: center;
+  gap: 0.5rem 0.6rem;
+  margin-top: 1.75rem;
 }
 
-.pages li {
-  padding: 0.15rem 0.5rem;
-  border: 1px solid rgba(242, 237, 225, 0.22);
+.flow__node {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgba(242, 237, 225, 0.24);
   border-radius: var(--radius);
-  font-size: 0.8rem;
-  color: var(--ink-soft);
+  font-size: 0.85rem;
+  color: var(--ink);
+  white-space: nowrap;
 }
+
+.flow .arrow-r { color: var(--ink-soft); }
 
 /* -- Studying ------------------------------------------------------------ */
 

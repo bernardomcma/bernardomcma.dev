@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Bernardo Martins — software, data, BI</title>
-<meta name="description" content="Bernardo Martins constrói software e trabalha com dados e BI. Estuda Sistemas de Informação na UFOP. Projetos: Lock In, uma extensão do Chrome publicada para sessões de foco, e um pipeline em Python que alimenta um relatório de Power BI sobre Postgres.">
+<meta name="description" content="Bernardo Martins constrói software e trabalha com dados e BI. Estuda Sistemas de Informação na UFOP. Projetos: Lock In, uma extensão do Chrome publicada para sessões de foco, e o Financial PBI, um sistema pessoal de dados e BI em volta das próprias finanças.">
 <meta name="author" content="Bernardo Martins">
 <meta name="theme-color" content="#14120f">
 
@@ -196,41 +196,12 @@
           <h3>Financial PBI</h3>
 
           <div class="prose measure project__body">
-            <p>Um pipeline para as minhas próprias finanças. Eu preencho uma planilha, o Python limpa e carrega no Postgres, e o Power BI lê de lá. Fluxo de caixa, cartões, CDI, cripto e B3 — com bots de Telegram e Discord em cima.</p>
+            <p>Um sistema de dados e BI que eu construí em volta das minhas próprias finanças. Os bots recebem os lançamentos, o Python faz o processamento, e o Power BI é o que eu realmente abro — com 47 medidas DAX por trás.</p>
           </div>
 
-          <dl class="spec">
-            <div class="spec__row">
-              <dt class="spec__key">Pipeline</dt>
-              <dd class="spec__val">Google Sheets<span class="arrow-r" aria-hidden="true"></span>Python<span class="arrow-r" aria-hidden="true"></span>PostgreSQL<span class="arrow-r" aria-hidden="true"></span>Power BI</dd>
-            </div>
-            <div class="spec__row">
-              <dt class="spec__key">Relatório</dt>
-              <dd class="spec__val"><span class="num">7</span> páginas<span class="sep" aria-hidden="true">·</span><span class="num">26</span> visuais<span class="sep" aria-hidden="true">·</span><span class="num">47</span> medidas DAX</dd>
-            </div>
-            <div class="spec__row">
-              <dt class="spec__key">Páginas</dt>
-              <dd class="spec__val">
-                <ul class="pages" role="list">
-                  <li>Investimentos</li>
-                  <li>Debt vs Income</li>
-                  <li>Cartões</li>
-                  <li>Acompanhamento Mensal</li>
-                  <li>Wishlists</li>
-                  <li>Detalhes Cripto</li>
-                  <li>Detalhes Investimentos</li>
-                </ul>
-              </dd>
-            </div>
-            <div class="spec__row">
-              <dt class="spec__key">Fontes</dt>
-              <dd class="spec__val">Bacen (CDI)<span class="sep" aria-hidden="true">·</span>CoinGecko<span class="sep" aria-hidden="true">·</span>Yahoo Finance (B3)</dd>
-            </div>
-            <div class="spec__row">
-              <dt class="spec__key">Roda em</dt>
-              <dd class="spec__val">cron numa VM<span class="sep" aria-hidden="true">·</span>pytest<span class="sep" aria-hidden="true">·</span>logging estruturado com retry</dd>
-            </div>
-          </dl>
+          <p class="flow" role="img" aria-label="Arquitetura: bots para o PostgreSQL, processamento em Python, de volta para o PostgreSQL e então lido pelo Power BI.">
+            <span class="flow__node">Bots</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">Python</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">Power BI</span>
+          </p>
 
           <p class="project__actions">
             <a class="btn" href="https://github.com/bernardomcma/financial-pbi" target="_blank" rel="noopener noreferrer">
