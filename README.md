@@ -1,6 +1,6 @@
 # bernardomcma.dev
 
-Personal site of Bernardo MCMA — software, data and BI.
+Personal site of Bernardo Martins — software, data, BI.
 
 Live at **[bernardomcma.dev](https://bernardomcma.dev)**.
 
@@ -9,19 +9,45 @@ Live at **[bernardomcma.dev](https://bernardomcma.dev)**.
 Plain HTML, CSS and JavaScript. No framework, no build step, no dependencies —
 what is in this repository is exactly what gets served.
 
-- **Fonts** — Instrument Serif (display), Inter (body), JetBrains Mono (labels),
-  self-hosted as Latin-subset WOFF2, ~90 KB total.
-- **JavaScript** — one ~110 line file, no libraries. It handles the pinned
-  header, reveal-on-scroll, the nav's active section, and keeping the language
-  link pointed at the section you are reading. The site is fully readable and
+- **Font** — Space Grotesk, one family, self-hosted as a Latin-subset WOFF2, 22 KB.
+  It's the same file Lock In ships. System `ui-monospace` handles the few numerals
+  that want tabular figures, at no extra cost.
+- **JavaScript** — one ~110 line file, no libraries: the pinned header,
+  reveal-on-scroll, the nav's active section, and keeping the language link
+  pointed at the section you're reading. The site is fully readable and
   navigable with JavaScript disabled.
 - **Languages** — English at `/`, Portuguese at `/pt/`, as two real pages with
   proper `hreflang`, not a runtime string swap.
 
+## Design system
+
+The site runs on **Lock In's design system**, at lower density. That project's
+`assets/theme.css` states the rules, and they hold here too:
+
+> Nothing blurs. No backdrop-filter, no soft shadows, no gradient text. Every
+> surface has a hard 2px border and a solid offset shadow. Colour is flat and
+> saturated. Depth comes from offset, not from light.
+
+The palette in `assets/css/main.css` is Lock In's dark mode verbatim. Lime is
+rationed on purpose — hover, the active nav item, one primary button. Motion is
+`80ms steps(2)`, stepped rather than eased, and pressing a button moves it onto
+its own shadow.
+
+Sections separate by **changing the background**, not by drawing rules. The Lock
+In section goes further and takes over the whole band with that project's *light*
+palette, so it reads as a window into the actual thing.
+
+> **Gotcha worth knowing:** don't move those `box-shadow` colours back into a
+> custom property like `--shadow: 4px 4px 0 var(--ink)`. A custom property
+> substitutes its `var()`s on the element that *declares* it, so a token defined
+> on `:root` bakes in the site's cream ink and stays cream inside the Lock In
+> band — where it is invisible. The shadow colours are written out at each use
+> site for exactly this reason.
+
 ## Local development
 
-The pages reference assets with root-relative paths (`/assets/...`), so open
-them through a server rather than double-clicking the file:
+The pages reference assets with root-relative paths (`/assets/...`), so open them
+through a server rather than double-clicking the file:
 
 ```bash
 python -m http.server 8787
@@ -37,9 +63,9 @@ pt/index.html         Portuguese page — same structure, translated text
 assets/
   css/main.css        All styling. Design tokens are at the top.
   js/main.js          All interaction.
-  fonts/              Three self-hosted WOFF2 files
+  fonts/              One self-hosted WOFF2
   img/                Open Graph image and PWA icons
-favicon.svg           The M mark, drawn as geometry
+favicon.svg           The letter B, as a real glyph outline
 _headers              Cloudflare Pages caching and security headers
 robots.txt            Allows everything; points at the sitemap
 sitemap.xml           Both language URLs, with alternates
@@ -47,8 +73,8 @@ sitemap.xml           Both language URLs, with alternates
 
 ## Updating content
 
-**The two pages are kept structurally identical, line for line, so a diff
-between them shows only translated text. Edit both.**
+**The two pages are kept structurally identical, line for line, so a diff between
+them shows only translated text. Edit both.**
 
 Section IDs (`#about`, `#projects`, `#education`, `#links`) are the same in both
 languages — that is what lets the EN/PT switch keep you in the same place. Don't
@@ -56,46 +82,45 @@ rename them in one file only.
 
 ### What is not translated
 
-**Software · Data · BI** is the positioning line, part of the identity rather
-than copy. It stays in English on the Portuguese page — in the hero, the
-`<title>`, the Open Graph and Twitter titles, and the image alt text. Both
-languages therefore share one Open Graph image.
+**software, data, BI** in the `<title>` and the Open Graph titles is the
+positioning line, not copy — it stays in English on both pages, and both share
+one Open Graph image. Descriptive prose *is* translated: the meta description,
+the About copy, and the `knowsAbout` keywords in the JSON-LD.
 
-Descriptive prose *is* translated: the meta description, the About copy, and
-the `knowsAbout` keywords in the JSON-LD.
+Lock In's own copy comes from that project's `_locales/` files, so each language
+shows the real store description rather than a translation of a translation.
 
 ### Adding a project
 
-In the Projects section of each page, copy the `<article class="project">`
-block and replace the title, repository URL, meta line and description. There is
-a `TODO` comment marking the spot. New projects stack automatically — the
-hairline rules and spacing are handled by CSS.
+Each project is a full-width `.band` inside `<section id="projects">`. Copy either
+existing one. Two shapes are available:
 
-Keep the repository as the title's link; a second destination (a store listing,
-a live demo) goes in the `project__actions` line below.
+- **`.band--lockin`** — takes over with the project's own palette by redefining
+  `--paper` / `--ink` on the band. Use this when a project has a visual identity
+  of its own worth showing.
+- **`.band--data`** — stays in the site's palette, one step darker, and uses the
+  `.spec` description list for a dense technical readout. Use this when the
+  interesting part is the architecture, not the interface.
+
+Keep the repository as the primary action. A second destination (a store listing,
+a live demo) goes beside it as a plain `.btn`.
+
+### Lock In screenshots
+
+The Lock In band has a commented-out `.shots` block waiting for the store PNGs.
+Drop them in `assets/img/lockin/`, then follow the instructions in that comment
+to switch the band to its two-column layout.
 
 ### Adding experience
 
-Education entries use `<li class="entry">`. Experience entries use the exact
-same markup — add them to the same list. When the first one lands, rename the
-section heading from "Education" / "Formação" to include experience, in both
-pages and in both navs.
+Education uses `.edu`. Experience entries take the same shape — add them to the
+same section, and rename the heading from "Studying" / "Faculdade" once it covers
+both, in each page and in each nav.
 
 ### Other placeholders
 
-Search for `TODO` in either HTML file. Currently waiting on:
-
-- a professional email on the domain (Links section and footer)
-- a CV link
-- UFOP start year and expected completion
-- the next project
-
-### Changing type or colour
-
-Everything lives in the `:root` block at the top of `assets/css/main.css` —
-five colours, three font families and the spacing rhythm. The palette is
-deliberately near-monochrome with no accent hue; emphasis comes from contrast.
-Every colour used for real text clears WCAG AA (4.5:1) against the background.
+Search for `TODO` in either HTML file. Currently waiting on: a professional email
+on the domain, a CV link, the Lock In screenshots, and the next project.
 
 ## Deployment
 
@@ -107,18 +132,14 @@ Pushing to `main` deploys automatically through Cloudflare Pages.
 | Build command | *(empty)* |
 | Build output directory | `/` |
 
-No build step means no build configuration. `_headers` is picked up by
-Cloudflare automatically: fonts and images cache for a year, CSS and JS for an
-hour so a deploy actually reaches people.
+No build step means no build configuration. `_headers` is picked up
+automatically: fonts and images cache for a year, CSS and JS for an hour so a
+deploy actually reaches people.
 
 ## Identity assets
 
-`favicon.svg` is hand-written — an **M** drawn as four stroked segments rather
-than a font glyph, so it stays crisp at 16px. The raster icons (`favicon.ico`,
-`apple-touch-icon.png`, `assets/img/icon-*.png`) and the Open Graph image were
-generated once from that same geometry with a throwaway Python/Pillow script,
-kept out of the repository so the project stays dependency-free. Regenerating
-them is only necessary if the mark itself changes.
-
-Both languages share one Open Graph image, because **Software · Data · BI** is
-the positioning line and is not translated — see *Updating content* above.
+`favicon.svg` is the letter **B** in Space Grotesk 700, as a real glyph outline
+rather than a `<text>` element, so it renders identically everywhere. The raster
+icons and the Open Graph image come from the same letter, generated once with a
+throwaway Python script (Pillow + fontTools) kept out of the repository so the
+project stays dependency-free. Regenerating is only needed if the mark changes.
