@@ -462,17 +462,15 @@ a:hover .arrow { transform: translate(2px, -2px); }
   line-height: 1.1;
 }
 
-.lockin__grid { display: grid; gap: 2.5rem; }
-
-@media (min-width: 900px) {
-  .lockin__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 3.5rem; align-items: center; }
+/* Real UI from the project, framed the way the project frames things. */
+.shots {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
 }
 
-/* Screenshot frames — 2px border, hard shadow, no rounding beyond the system. */
-.shots { display: grid; gap: 1.25rem; }
-
-@media (min-width: 560px) {
-  .shots { grid-template-columns: 1fr 1fr; }
+@media (min-width: 620px) {
+  .shots { grid-template-columns: 1fr 1fr; align-items: start; }
 }
 
 .shot {

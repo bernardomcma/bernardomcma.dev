@@ -65,6 +65,7 @@ assets/
   js/main.js          All interaction.
   fonts/              One self-hosted WOFF2
   img/                Open Graph image and PWA icons
+  img/lockin/         Lock In UI, generated from that repo (see below)
 favicon.svg           The letter B, as a real glyph outline
 _headers              Cloudflare Pages caching and security headers
 robots.txt            Allows everything; points at the sitemap
@@ -111,9 +112,30 @@ a live demo) goes beside it as a plain `.btn`.
 
 ### Lock In screenshots
 
-The Lock In band has a commented-out `.shots` block waiting for the store PNGs.
-Drop them in `assets/img/lockin/`, then follow the instructions in that comment
-to switch the band to its two-column layout.
+`assets/img/lockin/*.png` is real Lock In UI, and it is reproducible from that
+repo rather than copied by hand. Lock In gitignores `store/`, but it ships the
+generator, so:
+
+```bash
+git clone https://github.com/bernardomcma/lockin-chrome-extension
+cd lockin-chrome-extension && npm run serve
+```
+
+Then open `tools/make-shots.html?shot=running&save=1` (shots: `idle`, `running`,
+`blocked`, `summary`) and crop the result to that shot's `frame` rectangle,
+which is listed in `SHOTS` inside the same file. The crop matters: the full
+store shot carries its own headline on its own cream field, which collides with
+a band that already has both.
+
+Two things that cost time, worth writing down:
+
+- **Crop the rasterised PNG, not a screenshot of the page.** The live DOM puts
+  the card about 40px lower than the shipped image — the `foreignObject` pass
+  lays it out slightly differently.
+- **Localised shots need a one-line change.** `tools/harness.js` already accepts
+  a `locale`, but `make-shots.html` doesn't forward it. Passing
+  `locale: params.get('locale')` into `installChromeStub` makes
+  `&locale=pt_BR` work, which is where `*-pt.png` came from.
 
 ### Adding experience
 
@@ -124,7 +146,7 @@ both, in each page and in each nav.
 ### Other placeholders
 
 Search for `TODO` in either HTML file. Currently waiting on: a professional email
-on the domain, a CV link, the Lock In screenshots, and the next project.
+on the domain, a CV link, and the next project.
 
 ## Deployment
 
