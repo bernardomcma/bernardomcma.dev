@@ -86,15 +86,17 @@
       </ul>
     </nav>
 
-    <p class="lang" style="display: flex; align-items: center; gap: 8px;">
-      <span class="lang__on" aria-current="true" style="display: flex; align-items: center;">
-        <span class="visually-hidden">Current language: EN </span>
-        <img src="https://flagcdn.com/w20/us.png" srcset="https://flagcdn.com/w40/us.png 2x" width="20" alt="English" style="border-radius: 2px;">
+    <p class="lang">
+      <span class="lang__on" aria-current="true">
+        <span class="visually-hidden">Current language: </span>
+        <img class="lang__flag" src="https://flagcdn.com/w20/us.png" srcset="https://flagcdn.com/w40/us.png 2x" width="18" height="12" alt="">
+        <span>EN</span>
       </span>
       <span class="lang__sep" aria-hidden="true">/</span>
-      <a class="lang__off" href="/pt/" data-lang-link data-lang-base="/pt/" hreflang="pt-BR" lang="pt-BR" style="text-decoration: none; display: flex; align-items: center;">
-        <span class="visually-hidden">Ver em PT </span>
-        <img src="https://flagcdn.com/w20/br.png" srcset="https://flagcdn.com/w40/br.png 2x" width="20" alt="Português" style="border-radius: 2px; opacity: 0.5; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.5">
+      <a class="lang__off" href="/pt/" data-lang-link data-lang-base="/pt/" hreflang="pt-BR" lang="pt-BR">
+        <span class="visually-hidden">Switch language to </span>
+        <img class="lang__flag" src="https://flagcdn.com/w20/br.png" srcset="https://flagcdn.com/w40/br.png 2x" width="18" height="12" alt="">
+        <span>PT</span>
       </a>
     </p>
   </div>
@@ -104,30 +106,58 @@
 
   <!-- ===================== Hero ===================== -->
   <section class="hero" id="top">
-    <div class="shell">
-      <h1>Bernardo Martins</h1>
-      <p class="lead">I build software, work with data, and make things I end up using myself.</p>
+    <div class="shell hero__grid">
+      <div>
+        <p class="label hero__kicker">Software · Data · BI</p>
+        <h1>Bernardo Martins</h1>
+        <p class="lead">I build software, work with data, and make things I end up using myself.</p>
 
-      <ul class="hero__links" role="list">
-        <li>
-          <a class="chip" href="https://github.com/bernardomcma" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; margin-bottom: 2px;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            GitHub<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
-          </a>
-        </li>
-        <li>
-          <a class="chip" href="https://www.linkedin.com/in/bernardomcma/" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; margin-bottom: 2px;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-            LinkedIn<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
-          </a>
-        </li>
-        <li>
-          <a class="chip" href="https://www.instagram.com/bernardomcma/" target="_blank" rel="noopener noreferrer">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; margin-bottom: 2px;"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            Instagram<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
-          </a>
-        </li>
-      </ul>
+        <ul class="hero__links" role="list">
+          <li>
+            <a class="chip" href="https://github.com/bernardomcma" target="_blank" rel="noopener noreferrer">
+              <svg class="chip__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              GitHub<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li>
+            <a class="chip" href="https://www.linkedin.com/in/bernardomcma/" target="_blank" rel="noopener noreferrer">
+              <svg class="chip__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              LinkedIn<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+            </a>
+          </li>
+          <li>
+            <a class="chip" href="https://www.instagram.com/bernardomcma/" target="_blank" rel="noopener noreferrer">
+              <svg class="chip__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              Instagram<span class="visually-hidden"> (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <aside class="hero__card box" aria-label="Quick index">
+        <div class="hero__card-head">
+          <span>Index // 00</span>
+          <span class="status-dot">UFOP '28</span>
+        </div>
+        <dl class="spec-dl">
+          <div class="spec-row">
+            <dt>Focus</dt>
+            <dd>Software, Data &amp; BI</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Core stack</dt>
+            <dd>Python · SQL · JS</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Degree</dt>
+            <dd>Information Systems</dd>
+          </div>
+          <div class="spec-row">
+            <dt>Shipped</dt>
+            <dd>Lock In · Financial PBI</dd>
+          </div>
+        </dl>
+      </aside>
     </div>
   </section>
 
@@ -137,13 +167,34 @@
   <section class="band" id="about" aria-labelledby="about-heading">
     <div class="shell">
       <div class="band__head">
+        <span class="label">01 / Profile</span>
         <h2 id="about-heading">About</h2>
       </div>
-      <div class="prose measure reveal">
-        <p>I'm studying Information Systems at UFOP, where I've been getting deeper into software, data and BI. I'm expected to graduate in 2028.</p>
-        <p>Most of what I do revolves around <strong>Python</strong>, <strong>SQL</strong> and <strong>JavaScript</strong>, usually building things to solve problems I actually have.</p>
-        <p>I also spent some time in <strong>Toronto, Canada</strong>, where I had the chance to study and experience life somewhere very different from home.</p>
-        <p>That's pretty much how I ended up with the two projects below: one blocks the sites I kept going back to, the other runs my finances.</p>
+      <div class="about__grid reveal">
+        <div class="prose measure">
+          <p>I'm studying Information Systems at UFOP, where I've been getting deeper into software, data and BI. I'm expected to graduate in 2028.</p>
+          <p>Most of what I do revolves around <strong>Python</strong>, <strong>SQL</strong> and <strong>JavaScript</strong>, usually building things to solve problems I actually have.</p>
+          <p>I also spent some time in <strong>Toronto, Canada</strong>, where I had the chance to study and experience life somewhere very different from home.</p>
+          <p>That's pretty much how I ended up with the two projects below: one blocks the sites I kept going back to, the other runs my finances.</p>
+        </div>
+
+        <aside class="about__specs box" aria-label="Technical stack and background">
+          <p class="about__specs-title">Stack &amp; Domains</p>
+          <div class="tag-cluster">
+            <span class="tag tag--accent">Python</span>
+            <span class="tag tag--accent">SQL</span>
+            <span class="tag tag--accent">JavaScript</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">DAX</span>
+            <span class="tag">Chrome MV3</span>
+            <span class="tag">ETL Pipelines</span>
+          </div>
+          <div class="about__meta-list">
+            <p><strong>University:</strong> Federal University of Ouro Preto (UFOP)</p>
+            <p><strong>International:</strong> Study &amp; living experience in Toronto, Canada</p>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
@@ -153,6 +204,7 @@
   <section id="projects" aria-labelledby="projects-heading">
     <div class="shell projects">
       <div class="band__head">
+        <span class="label">02 / Selected Work</span>
         <h2 id="projects-heading">Things I built</h2>
       </div>
     </div>
@@ -190,10 +242,18 @@
           <figure class="shot">
             <img src="/assets/img/lockin/running.png" width="556" height="540" loading="lazy" decoding="async"
                  alt="The Lock In popup counting down a focus session, with nine attempts blocked so far.">
+            <figcaption class="shot__cap">
+              <span><strong>Fig. 01</strong> // Active Session</span>
+              <span>Popup UI</span>
+            </figcaption>
           </figure>
           <figure class="shot">
             <img src="/assets/img/lockin/blocked.png" width="596" height="546" loading="lazy" decoding="async"
                  alt="Lock In blocking instagram.com mid-session, showing the time left and that this is the fourth try today.">
+            <figcaption class="shot__cap">
+              <span><strong>Fig. 02</strong> // Site Interception</span>
+              <span>Block Screen</span>
+            </figcaption>
           </figure>
         </div>
       </div>
@@ -203,20 +263,44 @@
     <div class="band band--data">
       <div class="shell">
         <div class="reveal">
-          <h3>Financial PBI</h3>
+          <div class="data__grid">
+            <div>
+              <p class="label" style="margin-bottom: 0.75rem;">Personal Data &amp; BI System</p>
+              <h3>Financial PBI</h3>
 
-          <div class="prose measure project__body">
-            <p>A data and BI system I built around my own finances. Bots collect the entries, Python does the processing, and Power BI is what I actually open - with 47 DAX measures behind it.</p>
+              <div class="prose measure project__body">
+                <p>A data and BI system I built around my own finances. Bots collect the entries, Python does the processing, and Power BI is what I actually open - with 47 DAX measures behind it.</p>
+              </div>
+
+              <p class="project__actions">
+                <a class="btn" href="https://github.com/bernardomcma/financial-pbi" target="_blank" rel="noopener noreferrer">
+                  Repository<span class="visually-hidden"> on GitHub (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+                </a>
+              </p>
+            </div>
+
+            <div class="metrics-grid" aria-label="System telemetry">
+              <div class="metric-card">
+                <span class="metric-card__val">47</span>
+                <span class="metric-card__lbl">DAX Measures</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-card__val">05</span>
+                <span class="metric-card__lbl">Pipeline Stages</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-card__val">SQL</span>
+                <span class="metric-card__lbl">PostgreSQL Store</span>
+              </div>
+              <div class="metric-card">
+                <span class="metric-card__val">ETL</span>
+                <span class="metric-card__lbl">Python &amp; Bots</span>
+              </div>
+            </div>
           </div>
 
           <p class="flow" role="img" aria-label="Architecture: bots into PostgreSQL, processed with Python, back into PostgreSQL, then read by Power BI.">
-            <span class="flow__node">Bots</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">Python</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node">Power BI</span>
-          </p>
-
-          <p class="project__actions">
-            <a class="btn" href="https://github.com/bernardomcma/financial-pbi" target="_blank" rel="noopener noreferrer">
-              Repository<span class="visually-hidden"> on GitHub (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
-            </a>
+            <span class="flow__node"><span class="flow__idx">01</span>Bots</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">02</span>PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">03</span>Python</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">04</span>PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">05</span>Power BI</span>
           </p>
         </div>
       </div>
@@ -229,11 +313,12 @@
   <section class="band" id="education" aria-labelledby="education-heading">
     <div class="shell">
       <div class="band__head">
+        <span class="label">03 / Education</span>
         <h2 id="education-heading">Studying</h2>
       </div>
       <div class="edu reveal">
         <h3 class="edu__where">Universidade Federal de Ouro Preto (UFOP)</h3>
-        <p class="edu__course">Information Systems</p>
+        <p class="edu__course">Bachelor of Information Systems</p>
         <p class="edu__when">2024<span class="arrow-r" aria-hidden="true"></span>2028</p>
       </div>
       <!-- TODO: experience entries go here, same shape as .edu above. -->
@@ -244,11 +329,13 @@
   <section class="band" id="links" aria-labelledby="links-heading">
     <div class="shell">
       <div class="band__head">
+        <span class="label">04 / Directory</span>
         <h2 id="links-heading">Elsewhere</h2>
       </div>
       <ul class="rows reveal" role="list">
         <li>
           <a href="https://github.com/bernardomcma" target="_blank" rel="noopener noreferrer">
+            <span class="rows__idx" aria-hidden="true">01</span>
             <span class="rows__name">GitHub<span class="visually-hidden"> (opens in a new tab)</span></span>
             <span class="rows__handle">@bernardomcma</span>
             <span class="arrow" aria-hidden="true"></span>
@@ -256,6 +343,7 @@
         </li>
         <li>
           <a href="https://www.linkedin.com/in/bernardomcma/" target="_blank" rel="noopener noreferrer">
+            <span class="rows__idx" aria-hidden="true">02</span>
             <span class="rows__name">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></span>
             <span class="rows__handle">in/bernardomcma</span>
             <span class="arrow" aria-hidden="true"></span>
@@ -263,6 +351,7 @@
         </li>
         <li>
           <a href="https://www.instagram.com/bernardomcma/" target="_blank" rel="noopener noreferrer">
+            <span class="rows__idx" aria-hidden="true">03</span>
             <span class="rows__name">Instagram<span class="visually-hidden"> (opens in a new tab)</span></span>
             <span class="rows__handle">@bernardomcma</span>
             <span class="arrow" aria-hidden="true"></span>
@@ -270,6 +359,7 @@
         </li>
         <li>
           <a href="mailto:contact@bernardomcma.dev">
+            <span class="rows__idx" aria-hidden="true">04</span>
             <span class="rows__name">Email</span>
             <span class="rows__handle">contact@bernardomcma.dev</span>
           </a>
