@@ -1,0 +1,12 @@
+.git
+.github
+.claude
+.agents
+.vscode
+.idea
+.gitattributes
+.gitignore
+README.md
+PROMPT.MD
+wrangler.jsonc
+wrangler.toml
