@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#722F37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gramado & Canela">
+    <meta name="format-detection" content="telephone=no">
+    <title>Roteiro Gramado & Canela | 31/10 a 09/11</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        serra: {
+                            vinho: '#722F37',
+                            vinhoDark: '#521F25',
+                            verde: '#1E3F20',
+                            verdeLight: '#2B582E',
+                            dourado: '#D4AF37',
+                            douradoLight: '#F3E5AB',
+                            creme: '#FAF7F2',
+                            cremeDark: '#EBE4D8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        html {
+            -webkit-text-size-adjust: 100%;
+            font-size: 16px;
+            transition: font-size 0.2s ease;
+        }
+        html.font-scale-lg {
+            font-size: 18px; /* +12.5% para leitura confortável no iPhone */
+        }
+        html.font-scale-xl {
+            font-size: 20px; /* +25% modo leitura ampliada para os pais */
+        }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FAF7F2;
+            color: #1f2937;
+            -webkit-font-smoothing: antialiased;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+        }
+        header {
+            padding-top: max(2.25rem, calc(env(safe-area-inset-top) + 1rem));
+        }
+        .font-playfair {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        /* Acordeão com limite amplo para não cortar conteúdo em fontes maiores no iPhone */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-content.open {
+            max-height: 6000px;
+        }
+        /* Otimização de toque iOS (Apple HIG >= 44px) */
+        button, a, label, input[type="checkbox"] {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .touch-target {
+            min-height: 44px;
+        }
+        #map {
+            z-index: 10;
+        }
+        /* Controles de zoom maiores no celular */
+        .leaflet-touch .leaflet-bar a {
+            width: 38px;
+            height: 38px;
+            line-height: 38px;
+            font-size: 18px;
+        }
+        /* Estilo customizado para os popups do Leaflet */
+        .leaflet-popup-content-wrapper {
+            border-radius: 14px;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            padding: 4px;
+        }
+        .leaflet-popup-content {
+            margin: 10px 12px;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .leaflet-container a.leaflet-popup-close-button {
+            width: 32px;
+            height: 32px;
+            font-size: 22px;
+            line-height: 30px;
+            color: #722F37;
+        }
+        /* Marcadores customizados em HTML (maiores para toque no iPhone) */
+        .custom-pin {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 2.5px solid #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+            transition: transform 0.2s ease;
+        }
+        .custom-pin i {
+            transform: rotate(45deg);
+            color: #FFFFFF;
+            font-size: 15px;
+        }
+        /* Barra inferior segura para Home Indicator do iPhone 14 Pro / 17 */
+        .ios-bottom-nav {
+            padding-bottom: max(0.6rem, env(safe-area-inset-bottom));
+        }
+        /* Scrollbar elegante */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #722F37;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="selection:bg-serra-vinho selection:text-white">
+
+    <!-- Header / Hero -->
+    <header id="topo" class="bg-gradient-to-br from-serra-vinho via-serra-vinhoDark to-serra-verde text-white pb-8 px-4 shadow-xl border-b-4 border-serra-dourado relative overflow-hidden">
+        <!-- Elementos decorativos de fundo -->
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-serra-dourado/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <div class="inline-flex items-center gap-2 bg-black/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-serra-dourado text-xs md:text-sm font-semibold mb-3 border border-serra-dourado/40 shadow-sm">
+                <i class="fa-solid fa-star"></i> Roteiro Interativo &bull; Edição Natal Luz
+            </div>
+            <h1 class="font-playfair text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight drop-shadow">Gramado & Canela</h1>
+            <p class="text-sm sm:text-base md:text-lg text-serra-creme font-normal flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+                <span><i class="fa-regular fa-calendar-check text-serra-dourado mr-1.5"></i>Chegada: <strong>31/10 (21h)</strong></span>
+                <span class="hidden sm:inline text-serra-dourado">&bull;</span>
+                <span><i class="fa-solid fa-plane-departure text-serra-dourado mr-1.5"></i>Retorno: <strong>09/11 (05h)</strong></span>
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-3.5 sm:px-4 mt-5 sm:mt-8">
+        
+        <!-- Barra de Acessibilidade Rápida (Tamanho da Fonte para iPhone) -->
+        <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-serra-cremeDark mb-4 flex flex-wrap items-center justify-between gap-3" role="region" aria-label="Ajustes de leitura e acessibilidade">
+            <div class="flex items-center gap-2.5">
+                <div class="h-9 w-9 rounded-xl bg-serra-vinho/10 text-serra-vinho flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-text-height text-base"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-gray-800 text-sm block leading-tight">Tamanho da Letra</span>
+                    <span class="text-xs text-gray-600">Ajuste para leitura confortável no celular</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-1.5 bg-serra-creme p-1 rounded-xl border border-serra-cremeDark w-full sm:w-auto justify-end">
+                <button onclick="setFontScale('normal')" id="font-btn-normal" aria-label="Tamanho de letra padrão" class="flex-1 sm:flex-initial min-h-[40px] px-3.5 py-1.5 rounded-lg text-xs font-bold transition">
+                    A <span class="font-normal">Padrão</span>
+                </button>
+                <button onclick="setFontScale('lg')" id="font-btn-lg" aria-label="Tamanho de letra grande" class="flex-1 sm:flex-initial min-h-[40px] px-3.5 py-1.5 rounded-lg text-sm font-bold transition">
+                    A+ <span class="font-normal">Grande</span>
+                </button>
+                <button onclick="setFontScale('xl')" id="font-btn-xl" aria-label="Tamanho de letra extra grande" class="flex-1 sm:flex-initial min-h-[40px] px-3.5 py-1.5 rounded-lg text-base font-bold transition">
+                    A++ <span class="font-normal">Maior</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard: Progresso & Resumo Financeiro -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+            <!-- Card de Progresso -->
+            <div class="lg:col-span-2 bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-serra-cremeDark flex flex-col justify-between">
+                <div>
+                    <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
+                        <div>
+                            <h2 class="font-bold text-gray-900 flex items-center gap-2 text-lg">
+                                <i class="fa-solid fa-list-check text-serra-vinho"></i> Progresso do Roteiro
+                            </h2>
+                            <p class="text-xs sm:text-sm text-gray-600 mt-0.5">Toque nas caixas de seleção conforme realizar os passeios</p>
+                        </div>
+                        <div class="flex items-center gap-2 ml-auto">
+                            <span id="progress-count" class="text-xs sm:text-sm font-semibold bg-serra-creme px-2.5 py-1 rounded-lg text-gray-800 border border-serra-cremeDark">0/0</span>
+                            <span id="progress-text" class="text-2xl font-extrabold text-serra-verde">0%</span>
+                            <button onclick="resetProgress()" aria-label="Desmarcar todos os passeios" title="Desmarcar todos os passeios" class="min-h-[42px] min-w-[42px] flex items-center justify-center text-sm text-gray-500 hover:text-red-600 active:bg-red-100 transition p-2 rounded-xl hover:bg-red-50 border border-transparent hover:border-red-200">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden p-0.5 mt-3">
+                        <div id="progress-bar" class="bg-gradient-to-r from-serra-vinho via-serra-verde to-emerald-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-gray-700">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-floppy-disk text-serra-dourado"></i> Salvo automaticamente neste iPhone</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-serra-vinho"></i> Use <strong>"Ver no Mapa"</strong> ou <strong>"GPS"</strong> em cada passeio</span>
+                </div>
+            </div>
+
+            <!-- Card Resumo Financeiro / Estatísticas -->
+            <div class="bg-gradient-to-br from-serra-verde to-serra-verdeLight text-white p-4 sm:p-5 rounded-2xl shadow-sm border border-serra-dourado/40 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between border-b border-white/15 pb-2.5 mb-3">
+                        <h3 class="font-bold text-sm uppercase tracking-wider text-serra-dourado flex items-center gap-2">
+                            <i class="fa-solid fa-wallet"></i> Resumo de Atrações
+                        </h3>
+                        <span class="text-xs bg-black/30 px-2.5 py-0.5 rounded text-gray-100">Valores da Planilha</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div class="bg-white/10 rounded-xl p-3 border border-white/10">
+                            <span class="text-xs text-gray-100 block">Atrações Gratuitas</span>
+                            <span id="stat-free-count" class="text-lg sm:text-xl font-bold text-emerald-300">0 passeios</span>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-3 border border-white/10">
+                            <span class="text-xs text-gray-100 block">Atrações Pagas</span>
+                            <span id="stat-paid-count" class="text-lg sm:text-xl font-bold text-serra-douradoLight">0 passeios</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-black/30 rounded-xl p-3 border border-serra-dourado/30 flex items-center justify-between gap-2">
+                    <div>
+                        <span class="text-xs text-gray-200 block font-medium">Soma dos Ingressos Listados*</span>
+                        <span class="text-xs text-gray-300">(1x cada atração tabelada)</span>
+                    </div>
+                    <span id="stat-total-cost" class="text-lg font-extrabold text-serra-dourado shrink-0">R$ 2.338,50</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapa Interativo (CARTO Voyager Tiles) -->
+        <div id="map-section" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-serra-cremeDark mb-6 scroll-mt-4">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center pb-3 gap-3">
+                <div>
+                    <h3 class="font-bold text-serra-vinho text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> Mapa Interativo das Atrações
+                    </h3>
+                    <p class="text-xs sm:text-sm text-gray-600">Toque nos pinos coloridos ou escolha uma região abaixo</p>
+                </div>
+                <div class="grid grid-cols-3 sm:flex items-center gap-2 w-full sm:w-auto">
+                    <button onclick="filterMapRegion('gramado')" class="touch-target text-xs sm:text-sm bg-serra-creme hover:bg-serra-cremeDark active:scale-95 text-gray-900 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl transition border border-serra-cremeDark flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-tree-city text-serra-vinho"></i> <span>Gramado</span>
+                    </button>
+                    <button onclick="filterMapRegion('canela')" class="touch-target text-xs sm:text-sm bg-serra-creme hover:bg-serra-cremeDark active:scale-95 text-gray-900 font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl transition border border-serra-cremeDark flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-mountain-sun text-serra-verde"></i> <span>Canela</span>
+                    </button>
+                    <button onclick="resetMapZoom()" class="touch-target text-xs sm:text-sm bg-serra-vinho hover:bg-serra-vinhoDark active:scale-95 text-white font-semibold px-2.5 sm:px-3.5 py-2 rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-expand"></i> <span>Ver Tudo</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Container do Mapa -->
+            <div id="map" class="h-[340px] sm:h-80 md:h-[420px] w-full rounded-xl border border-serra-cremeDark shadow-inner"></div>
+
+            <!-- Botão dinâmico para voltar à atração no roteiro (aparece após clicar em "Ver no Mapa") -->
+            <div id="back-to-activity-bar" class="hidden mt-3">
+                <button onclick="returnToLastActivity()" class="w-full touch-target bg-serra-verde hover:bg-serra-verdeLight active:scale-[0.99] text-white font-bold text-sm py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 transition">
+                    <i class="fa-solid fa-arrow-turn-down"></i>
+                    <span id="back-to-activity-text">Voltar para a atração no roteiro</span>
+                </button>
+            </div>
+
+            <!-- Legenda do Mapa -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 pt-3 text-xs sm:text-sm text-gray-700">
+                <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-4 gap-y-1.5 w-full sm:w-auto">
+                    <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full inline-block shrink-0" style="background:#722F37"></span> Parques & Centro</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full inline-block shrink-0" style="background:#1E3F20"></span> Natureza & Canela</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full inline-block shrink-0" style="background:#D97706"></span> Gastronomia</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full inline-block shrink-0" style="background:#2563EB"></span> Natal Luz</span>
+                </div>
+                <span id="active-pin-label" class="text-xs sm:text-sm font-semibold text-serra-vinho italic">Exibindo todos os 20 pontos do roteiro</span>
+            </div>
+        </div>
+
+        <!-- Controles do Acordeão -->
+        <div id="roteiro-section" class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 scroll-mt-4">
+            <div>
+                <h3 class="font-playfair text-2xl md:text-3xl font-bold text-serra-vinho">Programação Dia a Dia</h3>
+                <p class="text-xs sm:text-sm text-gray-600">De Quinta-feira (31/10) a Segunda-feira (09/11)</p>
+            </div>
+            <div class="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto">
+                <button onclick="toggleAllAccordions(true)" class="touch-target text-xs sm:text-sm bg-white hover:bg-serra-creme active:scale-95 text-gray-800 font-semibold px-3.5 py-2.5 rounded-xl border border-serra-cremeDark shadow-sm transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-angles-down text-serra-vinho"></i> Expandir Dias
+                </button>
+                <button onclick="toggleAllAccordions(false)" class="touch-target text-xs sm:text-sm bg-white hover:bg-serra-creme active:scale-95 text-gray-800 font-semibold px-3.5 py-2.5 rounded-xl border border-serra-cremeDark shadow-sm transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-angles-up text-serra-vinho"></i> Recolher Dias
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de Dias (Acordeões) -->
+        <div id="itinerary-container" class="space-y-4">
+            <!-- Gerado dinamicamente via JavaScript -->
+        </div>
+
+        <!-- Seção Dedicada: Dicas de Ouro da Planilha -->
+        <section id="dicas-section" class="mt-10 bg-white rounded-2xl shadow-md border-2 border-serra-dourado/50 overflow-hidden scroll-mt-4">
+            <div class="bg-gradient-to-r from-serra-verde via-serra-verdeLight to-serra-verde text-white px-4 sm:px-6 py-5 flex flex-wrap items-center justify-between gap-4 border-b-2 border-serra-dourado">
+                <div class="flex items-center gap-3.5">
+                    <div class="h-11 w-11 shrink-0 rounded-xl bg-serra-dourado/20 border border-serra-dourado flex items-center justify-center text-serra-dourado text-xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-playfair text-xl md:text-2xl font-bold">Dicas de Ouro da Planilha</h3>
+                        <p class="text-xs sm:text-sm text-gray-100">Gastronomia, Laçador de Ofertas, fotos e horários oficiais</p>
+                    </div>
+                </div>
+                <span class="text-xs bg-black/30 px-3 py-1 rounded-full border border-serra-dourado/40 text-serra-douradoLight">
+                    <i class="fa-solid fa-check-double mr-1"></i> Guia Rápido de Bolso
+                </span>
+            </div>
+            
+            <div class="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Coluna 1: Gastronomia & Laçador de Ofertas (7 cols) -->
+                <div class="lg:col-span-7 space-y-4">
+                    <h4 class="font-bold text-serra-vinho border-b border-serra-cremeDark pb-2 flex items-center gap-2 text-base sm:text-lg">
+                        <i class="fa-solid fa-utensils"></i> Onde Comer & Dicas do Laçador de Ofertas
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div id="dica-pouso-novo" class="p-4 rounded-xl bg-serra-creme border border-serra-cremeDark flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="font-bold text-gray-900 text-sm sm:text-base">Restaurante Pouso Novo</span>
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-900 shrink-0">Imperdível</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                    Fica bem atrás da Rua Coberta. Vale muito a pena comprar pelo <strong>Laçador de Ofertas</strong> na modalidade <em>buffet livre</em>. A comida e as sobremesas são maravilhosas!
+                                </p>
+                            </div>
+                            <button onclick="focusOnMap('pouso_novo', event, 'dica-pouso-novo', 'Dica: Restaurante Pouso Novo')" class="mt-3 touch-target w-full bg-white hover:bg-serra-vinho active:scale-95 text-serra-vinho hover:text-white border border-serra-vinho/30 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-location-crosshairs"></i> Ver Pouso Novo no Mapa
+                            </button>
+                        </div>
+
+                        <div id="dica-cara-de-mau" class="p-4 rounded-xl bg-serra-creme border border-serra-cremeDark flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="font-bold text-gray-900 text-sm sm:text-base">Pizzaria Cara de Mau</span>
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-900 shrink-0">Temática</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                    Famosa pelos dançarinos vestidos de piratas e muita animação. <strong>Atenção:</strong> Tem horário marcado quando você realiza a compra do ingresso/voucher.
+                                </p>
+                            </div>
+                            <button onclick="focusOnMap('cara_de_mau', event, 'dica-cara-de-mau', 'Dica: Pizzaria Cara de Mau')" class="mt-3 touch-target w-full bg-white hover:bg-serra-vinho active:scale-95 text-serra-vinho hover:text-white border border-serra-vinho/30 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-location-crosshairs"></i> Ver Cara de Mau no Mapa
+                            </button>
+                        </div>
+
+                        <div id="dica-scur" class="p-4 rounded-xl bg-serra-creme border border-serra-cremeDark flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="font-bold text-gray-900 text-sm sm:text-base">Pizzaria Scur</span>
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-900 shrink-0">Tradicional</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                    É do mesmo dono da Cara de Mau. Tem excelente rodízio e também a opção de pedir só a pizza à la carte (o voucher promocional vale apenas para o rodízio no salão).
+                                </p>
+                            </div>
+                            <button onclick="focusOnMap('scur', event, 'dica-scur', 'Dica: Pizzaria Scur')" class="mt-3 touch-target w-full bg-white hover:bg-serra-vinho active:scale-95 text-serra-vinho hover:text-white border border-serra-vinho/30 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-location-crosshairs"></i> Ver Pizzaria Scur no Mapa
+                            </button>
+                        </div>
+
+                        <div id="dica-quiero-cafe" class="p-4 rounded-xl bg-serra-creme border border-serra-cremeDark flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="font-bold text-gray-900 text-sm sm:text-base">Fondue & Cafeterias</span>
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-900 shrink-0">Clássicos</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                                    <strong>Noite de Fondue:</strong> Várias opções com promoção diária no <em>Laçador de Ofertas</em>.<br>
+                                    <strong>Cafeteria:</strong> Destaque para o <em>Quiero Café</em> (e várias outras charmosas pelo centro).
+                                </p>
+                            </div>
+                            <button onclick="focusOnMap('quiero_cafe', event, 'dica-quiero-cafe', 'Dica: Quiero Café')" class="mt-3 touch-target w-full bg-white hover:bg-serra-vinho active:scale-95 text-serra-vinho hover:text-white border border-serra-vinho/30 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-sm">
+                                <i class="fa-solid fa-location-crosshairs"></i> Ver Quiero Café no Mapa
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Alerta importante da planilha -->
+                    <div class="p-4 rounded-xl bg-red-50 border-l-4 border-red-600 flex items-start gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg mt-0.5"></i>
+                        <div>
+                            <h5 class="font-bold text-red-900 text-sm sm:text-base">Alerta da Planilha: Churrascaria Brasa Gramado</h5>
+                            <p class="text-xs sm:text-sm text-red-800 mt-0.5 leading-relaxed">
+                                Anotação original da planilha: <em>"Churrascaria Brasa Gramado — fomos mas não gostamos"</em>. Por isso ela foi deixada de fora das sugestões principais deste roteiro!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna 2: Natal Luz & Fotógrafa Eveline (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                    <div>
+                        <h4 class="font-bold text-serra-vinho border-b border-serra-cremeDark pb-2 flex items-center gap-2 text-base sm:text-lg">
+                            <i class="fa-solid fa-wand-magic-sparkles text-serra-dourado"></i> Quadro Oficial: Natal Luz
+                        </h4>
+                        <div class="mt-3 space-y-2.5 text-xs sm:text-sm">
+                            <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 flex justify-between items-center gap-2">
+                                <div>
+                                    <span class="font-bold text-gray-900 block">O Grande Desfile de Natal</span>
+                                    <span class="text-gray-700">Dom, Seg, Qua e Sex às 20h (Expogramado)</span>
+                                </div>
+                                <span class="font-bold text-serra-vinho bg-white px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">R$ 470,00</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 flex justify-between items-center gap-2">
+                                <div>
+                                    <span class="font-bold text-gray-900 block">Nativitaten (Show no Lago)</span>
+                                    <span class="text-gray-700">Quintas e Sábados às 20h</span>
+                                </div>
+                                <span class="font-bold text-serra-vinho bg-white px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">R$ 470,00</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-50/80 border border-amber-200 flex justify-between items-center gap-2">
+                                <div>
+                                    <span class="font-bold text-gray-900 block">Brilho de Natal</span>
+                                    <span class="text-gray-700">Sex, Sáb, Dom e Seg às 18h</span>
+                                </div>
+                                <span class="font-bold text-serra-vinho bg-white px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">R$ 300,00</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 flex justify-between items-center gap-2">
+                                <div>
+                                    <span class="font-bold text-emerald-950 block">Show de Acendimento das Luzes</span>
+                                    <span class="text-emerald-900">Todos os dias às 20h (Palácio dos Festivais)</span>
+                                </div>
+                                <span class="font-bold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 shrink-0">Gratuito</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 flex justify-between items-center gap-2">
+                                <div>
+                                    <span class="font-bold text-emerald-950 block">Parada de Natal (15h) &bull; Caminho das Luzes (Ter 19h)</span>
+                                    <span class="text-emerald-900">Palco Rua Coberta (11h/17h) &bull; Vila de Natal (9h-21h)</span>
+                                </div>
+                                <span class="font-bold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 shrink-0">Gratuitos</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Fotógrafa Eveline -->
+                    <div class="bg-gradient-to-br from-serra-vinho to-serra-vinhoDark text-white p-4 rounded-xl shadow-sm border border-serra-dourado">
+                        <div class="flex items-center gap-3 mb-1.5">
+                            <div class="h-9 w-9 shrink-0 rounded-lg bg-serra-dourado text-serra-vinhoDark flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-camera-retro"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm sm:text-base text-serra-douradoLight">Ensaio Fotográfico com a Eveline</h5>
+                                <span class="text-xs text-gray-200">Super recomendada na planilha</span>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-gray-100 italic leading-relaxed mt-2">
+                            "Fotos fizemos com a Eveline, que nos deixou bem à vontade, nos levou em lugares que nem estavam no contrato. Pessoa boa de negociar, adoramos!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Barra de Navegação Inferior Fixa para iPhone (14 Pro / 17) -->
+    <nav aria-label="Navegação rápida no celular" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-serra-cremeDark shadow-[0_-4px_16px_rgba(0,0,0,0.08)] ios-bottom-nav px-2 pt-1.5">
+        <div class="max-w-lg mx-auto grid grid-cols-4 gap-1">
+            <a href="#topo" class="touch-target flex flex-col items-center justify-center py-1 rounded-xl text-gray-700 hover:text-serra-vinho active:bg-serra-creme transition">
+                <i class="fa-solid fa-chart-pie text-base text-serra-vinho"></i>
+                <span class="text-[11px] font-bold mt-0.5">Resumo</span>
+            </a>
+            <a href="#map-section" class="touch-target flex flex-col items-center justify-center py-1 rounded-xl text-gray-700 hover:text-serra-vinho active:bg-serra-creme transition">
+                <i class="fa-solid fa-map-location-dot text-base text-serra-verde"></i>
+                <span class="text-[11px] font-bold mt-0.5">Mapa</span>
+            </a>
+            <a href="#roteiro-section" class="touch-target flex flex-col items-center justify-center py-1 rounded-xl text-gray-700 hover:text-serra-vinho active:bg-serra-creme transition">
+                <i class="fa-solid fa-calendar-days text-base text-serra-vinho"></i>
+                <span class="text-[11px] font-bold mt-0.5">Roteiro</span>
+            </a>
+            <a href="#dicas-section" class="touch-target flex flex-col items-center justify-center py-1 rounded-xl text-gray-700 hover:text-serra-vinho active:bg-serra-creme transition">
+                <i class="fa-solid fa-award text-base text-amber-600"></i>
+                <span class="text-[11px] font-bold mt-0.5">Dicas</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        // 1. Dicionário de Coordenadas Geográficas para o Mapa Interativo
+        const locaisMapa = {
+            "rua_coberta": {
+                nome: "Rua Coberta & Palácio dos Festivais",
+                categoria: "Centro de Gramado & Natal Luz",
+                cor: "#722F37",
+                icone: "fa-star",
+                lat: -29.3789,
+                lng: -50.8739,
+                desc: "Coração de Gramado! Palco Rua Coberta (11h e 17h) e Show de Acendimento todos os dias às 20h."
+            },
+            "vila_natal": {
+                nome: "Vila de Natal (Praça das Etnias)",
+                categoria: "Natal Luz Gratuito & Cultura",
+                cor: "#2563EB",
+                icone: "fa-tree",
+                lat: -29.3802,
+                lng: -50.8733,
+                desc: "Aberta todos os dias das 9h às 21h. Ao lado dos fornos de pão com linguiça e da Rua Torta."
+            },
+            "pouso_novo": {
+                nome: "Restaurante Pouso Novo",
+                categoria: "Gastronomia (Buffet Livre)",
+                cor: "#D97706",
+                icone: "fa-utensils",
+                lat: -29.3782,
+                lng: -50.8748,
+                desc: "Fica atrás da Rua Coberta. Dica: comprar no Laçador de Ofertas (comida e sobremesas excelentes)."
+            },
+            "quiero_cafe": {
+                nome: "Quiero Café Gramado",
+                categoria: "Cafeteria & Gastronomia",
+                cor: "#D97706",
+                icone: "fa-mug-hot",
+                lat: -29.3775,
+                lng: -50.8736,
+                desc: "Ótima opção de cafeteria e refeições rápidas na Av. Borges de Medeiros."
+            },
+            "mini_mundo": {
+                nome: "Mini Mundo",
+                categoria: "Parque Temático",
+                cor: "#722F37",
+                icone: "fa-chess-rook",
+                lat: -29.3838,
+                lng: -50.8789,
+                desc: "Famoso parque de miniaturas ao ar livre rico em detalhes (incluso no roteiro do City Tour)."
+            },
+            "lago_negro": {
+                nome: "Lago Negro",
+                categoria: "Natureza & Cartão-Postal",
+                cor: "#1E3F20",
+                icone: "fa-water",
+                lat: -29.3965,
+                lng: -50.8762,
+                desc: "Famoso pelos pedalinhos de cisne, árvores importadas da Floresta Negra e ótimas fotos."
+            },
+            "cristais": {
+                nome: "Cristais de Gramado",
+                categoria: "Atração Cultural & Compras",
+                cor: "#722F37",
+                icone: "fa-gem",
+                lat: -29.4239,
+                lng: -50.8524,
+                desc: "Demonstração ao vivo de cristal artístico soprado (parada clássica do City Tour)."
+            },
+            "snowland": {
+                nome: "Parque Snowland",
+                categoria: "Parque de Neve Indoor",
+                cor: "#2563EB",
+                icone: "fa-snowflake",
+                lat: -29.3942,
+                lng: -50.9228,
+                desc: "Primeiro parque de neve indoor das Américas! Dica de ouro: chegar às 9h quando abre."
+            },
+            "nba_park": {
+                nome: "NBA Park Gramado",
+                categoria: "Parque Temático Esportivo",
+                cor: "#722F37",
+                icone: "fa-basketball",
+                lat: -29.3995,
+                lng: -50.8576,
+                desc: "Av. das Hortênsias, 4795. Espaço oficial da NBA com quadras, desafios, museu e shows (dura ~3h)."
+            },
+            "expogramado": {
+                nome: "Expogramado (Grande Desfile)",
+                categoria: "Espetáculo Natal Luz",
+                cor: "#2563EB",
+                icone: "fa-sleigh",
+                lat: -29.3725,
+                lng: -50.8837,
+                desc: "Av. Borges de Medeiros, 4111. Palco de 'O Grande Desfile de Natal' às 20h (Dom, Seg, Qua, Sex)."
+            },
+            "nativitaten": {
+                nome: "Lago Joaquina Rita Bier (Nativitaten)",
+                categoria: "Espetáculo Natal Luz",
+                cor: "#2563EB",
+                icone: "fa-fire",
+                lat: -29.3834,
+                lng: -50.8742,
+                desc: "Palco tradicional do grandioso show de águas, luzes, fogos e corais Nativitaten (Qui e Sáb às 20h)."
+            },
+            "catedral_gramado": {
+                nome: "Catedral de São Pedro (Gramado)",
+                categoria: "Centro Histórico",
+                cor: "#722F37",
+                icone: "fa-church",
+                lat: -29.3784,
+                lng: -50.8732,
+                desc: "Construída em pedra basáltica com belíssimos vitrais sacros no coração de Gramado."
+            },
+            "rua_torta": {
+                nome: "Rua Torta (Rua Emílio Sorgetz)",
+                categoria: "Ponto Fotográfico",
+                cor: "#722F37",
+                icone: "fa-camera",
+                lat: -29.3809,
+                lng: -50.8732,
+                desc: "Inspirada na Lombard Street da Califórnia, perfeita para tirar fotos no passeio a pé."
+            },
+            "cara_de_mau": {
+                nome: "Pizzaria Cara de Mau",
+                categoria: "Gastronomia Temática",
+                cor: "#D97706",
+                icone: "fa-skull-crossbones",
+                lat: -29.3756,
+                lng: -50.8744,
+                desc: "Rodízio temático com shows de piratas! Lembre-se de conferir o horário marcado na compra."
+            },
+            "scur": {
+                nome: "Pizzaria Scur",
+                categoria: "Gastronomia (Rodízio / À la Carte)",
+                cor: "#D97706",
+                icone: "fa-pizza-slice",
+                lat: -29.3768,
+                lng: -50.8778,
+                desc: "Rua São Pedro, 660. Do mesmo dono da Cara de Mau, excelente opção para jantar."
+            },
+            "catedral_canela": {
+                nome: "Catedral de Pedra (Canela)",
+                categoria: "Cartão-Postal de Canela",
+                cor: "#1E3F20",
+                icone: "fa-monument",
+                lat: -29.3621,
+                lng: -50.8149,
+                desc: "Paróquia Nossa Senhora de Lourdes em estilo gótico inglês, ícone de Canela."
+            },
+            "caracol": {
+                nome: "Parque do Caracol & Bondinhos",
+                categoria: "Natureza em Canela",
+                cor: "#1E3F20",
+                icone: "fa-mountain",
+                lat: -29.3134,
+                lng: -50.8554,
+                desc: "Vista deslumbrante da Cascata do Caracol (tanto pelo parque quanto pelos Bondinhos Aéreos)."
+            },
+            "skyglass": {
+                nome: "Skyglass Canela",
+                categoria: "Aventura & Mirante",
+                cor: "#1E3F20",
+                icone: "fa-binoculars",
+                lat: -29.3090,
+                lng: -50.7710,
+                desc: "Maior plataforma estaiada de vidro do mundo a 360m de altura sobre o Vale da Ferradura."
+            },
+            "alpen_park": {
+                nome: "Alpen Park (Canela)",
+                categoria: "Parque de Aventura",
+                cor: "#1E3F20",
+                icone: "fa-ticket",
+                lat: -29.3422,
+                lng: -50.8183,
+                desc: "Trenó alpino, montanha-russa, tirolesa e quadriciclo em meio às colinas de Canela (3 a 4h)."
+            },
+            "maria_fumaca": {
+                nome: "Passeio Maria Fumaça (Bento Gonçalves)",
+                categoria: "Tour Uva e Vinho",
+                cor: "#722F37",
+                icone: "fa-train",
+                lat: -29.1718,
+                lng: -51.5152,
+                desc: "Passeio clássico de trem a vapor pela Serra Gaúcha com degustação nas vinícolas (Dia inteiro)."
+            }
+        };
+
+        // 2. Programação Completa Dia a Dia (31/10 Quinta a 09/11 Segunda)
+        const roteiroData = [
+            {
+                id: "dia1",
+                data: "31/10 (Quinta-feira)",
+                titulo: "Chegada em Gramado",
+                resumo: "Chegada por volta das 21h, check-in e descanso no centro",
+                atividades: [
+                    {
+                        id: "d1_a1",
+                        hora: "21:00",
+                        nome: "Chegada na Cidade & Check-in no Hotel",
+                        desc: "Chegada prevista em Gramado por volta das 21h. Fazer o check-in com tranquilidade, deixar as malas e descansar da viagem.",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "Noite",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d1_a2",
+                        hora: "22:00",
+                        nome: "Caminhada Leve ou Lanche pelo Centro",
+                        desc: "Se bater fome, aproveite para dar uma volta rápida nos arredores da Rua Coberta e Av. Borges de Medeiros toda iluminada para o Natal Luz.",
+                        preco: "Livre",
+                        valorNum: 0,
+                        duracao: "1 hora",
+                        mapKey: "rua_coberta"
+                    }
+                ]
+            },
+            {
+                id: "dia2",
+                data: "01/11 (Sexta-feira)",
+                titulo: "City Tour Gramado & Canela + O Grande Desfile",
+                resumo: "Principais cartões-postais durante o dia, Pouso Novo e Desfile às 20h",
+                atividades: [
+                    {
+                        id: "d2_a1",
+                        hora: "08:30",
+                        nome: "City Tour Completo: Gramado e Canela",
+                        desc: "Passeio guiado passando pelo Mini Mundo, Lago Negro (pedalinho), Cristais de Gramado, fábrica de chocolates e loja de queijos e vinhos. Em Canela: Catedral de Pedra, Mundo Gelado do Capitão e vista da Cascata do Caracol de bondinho.",
+                        preco: "R$ 78,90",
+                        valorNum: 78.90,
+                        duracao: "Dia inteiro",
+                        mapKey: "mini_mundo"
+                    },
+                    {
+                        id: "d2_a2",
+                        hora: "13:00",
+                        nome: "Almoço Sugerido: Restaurante Pouso Novo",
+                        desc: "Fica bem atrás da Rua Coberta. Dica da planilha: comprar pelo Laçador de Ofertas na opção buffet livre — comida caseira e sobremesas excelentes!",
+                        preco: "Laçador de Ofertas",
+                        valorNum: 0,
+                        duracao: "1h30",
+                        mapKey: "pouso_novo"
+                    },
+                    {
+                        id: "d2_a3",
+                        hora: "20:00",
+                        nome: "O Grande Desfile de Natal (Data da planilha: 01/11)",
+                        desc: "Local: Expogramado (Av. Borges de Medeiros, 4111). Ocorre Dom, Seg, Qua e Sex às 20h. Carros alegóricos, neve artificial e muita emoção!",
+                        preco: "R$ 470,00",
+                        valorNum: 470.00,
+                        duracao: "Noite (20h)",
+                        mapKey: "expogramado"
+                    }
+                ]
+            },
+            {
+                id: "dia3",
+                data: "02/11 (Sábado)",
+                titulo: "Parque Snowland, Parada de Natal & Cara de Mau",
+                resumo: "Manhã na neve às 9h, atrações na Borges de Medeiros e jantar pirata",
+                atividades: [
+                    {
+                        id: "d3_a1",
+                        hora: "09:00",
+                        nome: "Parque Snowland (Chegar às 9h quando abre!)",
+                        desc: "Montanha de neve real, patinação no gelo, tubing e espetáculos. A planilha destaca: o melhor horário para ir é às 9h quando abre.",
+                        preco: "R$ 199,90",
+                        valorNum: 199.90,
+                        duracao: "5 a 6 horas",
+                        mapKey: "snowland"
+                    },
+                    {
+                        id: "d3_a2",
+                        hora: "15:00",
+                        nome: "Parada de Natal na Av. Borges de Medeiros",
+                        desc: "Desfile alegre e gratuito com banda natalina, acrobatas e Papai Noel no centro (ocorre Sex, Sáb e Dom às 15h).",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "1 hora",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d3_a3",
+                        hora: "18:00",
+                        nome: "Espetáculo Brilho de Natal",
+                        desc: "Evento pago do Natal Luz anotado na planilha (ocorre Sex, Sáb, Dom e Seg às 18h).",
+                        preco: "R$ 300,00",
+                        valorNum: 300.00,
+                        duracao: "1h30",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d3_a4",
+                        hora: "20:30",
+                        nome: "Jantar Temático: Pizzaria Cara de Mau",
+                        desc: "Famosa pizzaria com show de dançarinos vestidos de piratas! Atenção: tem horário marcado no momento em que realiza a compra.",
+                        preco: "Horário Marcado",
+                        valorNum: 0,
+                        duracao: "Noite",
+                        mapKey: "cara_de_mau"
+                    }
+                ]
+            },
+            {
+                id: "dia4",
+                data: "03/11 (Domingo)",
+                titulo: "Aventura em Canela: Skyglass & Alpen Park",
+                resumo: "Plataforma de vidro, trenó na montanha, Acendimento das Luzes e Pizzaria Scur",
+                atividades: [
+                    {
+                        id: "d4_a1",
+                        hora: "09:30",
+                        nome: "Skyglass Canela",
+                        desc: "Caminhe sobre a plataforma de vidro estaiada e ande no monotrilho suspenso Abusado com vista espetacular do Vale da Ferradura.",
+                        preco: "R$ 215,00",
+                        valorNum: 215.00,
+                        duracao: "Manhã",
+                        mapKey: "skyglass"
+                    },
+                    {
+                        id: "d4_a2",
+                        hora: "14:00",
+                        nome: "Alpen Park em Canela",
+                        desc: "Parque de aventuras ao ar livre famoso pelo Trenó Alpino, montanha-russa, tirolesa e cinema 4D.",
+                        preco: "R$ 148,90",
+                        valorNum: 148.90,
+                        duracao: "3 a 4 horas",
+                        mapKey: "alpen_park"
+                    },
+                    {
+                        id: "d4_a3",
+                        hora: "20:00",
+                        nome: "Show de Acendimento das Luzes",
+                        desc: "Ocorre todos os dias às 20h em frente ao Palácio dos Festivais. Show teatral gratuito que acende toda a decoração da cidade!",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "30 min",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d4_a4",
+                        hora: "21:00",
+                        nome: "Jantar: Pizzaria Scur",
+                        desc: "Do mesmo dono da Cara de Mau. Oferece excelente rodízio (aceita voucher de compra) ou opção de pedir pizza à la carte.",
+                        preco: "Rodízio / À la carte",
+                        valorNum: 0,
+                        duracao: "Noite",
+                        mapKey: "scur"
+                    }
+                ]
+            },
+            {
+                id: "dia5",
+                data: "04/11 (Segunda-feira)",
+                titulo: "Passeio de Maria Fumaça & Vinícolas",
+                resumo: "Dia todo na região da Uva e do Vinho + 2ª opção para O Grande Desfile",
+                atividades: [
+                    {
+                        id: "d5_a1",
+                        hora: "07:30",
+                        nome: "Tour Maria Fumaça + Vinícolas (Bento Gonçalves / Carlos Barbosa)",
+                        desc: "Passeio tradicional de trem a vapor com música típica italiana e gaúcha, degustação de vinhos, espumantes e sucos. Como diz na planilha: 'é um passeio bem gostoso, dura o dia todo'.",
+                        preco: "R$ 397,00",
+                        valorNum: 397.00,
+                        duracao: "Dia inteiro",
+                        mapKey: "maria_fumaca"
+                    },
+                    {
+                        id: "d5_a2",
+                        hora: "20:00",
+                        nome: "2ª Opção de Data: O Grande Desfile de Natal (04/11 às 20h)",
+                        desc: "A planilha lista 01/11 ou 04/11 como opções para assistir ao Grande Desfile na Expogramado. Caso não tenham ido na sexta, hoje é o dia!",
+                        preco: "Incluso / Opção 2",
+                        valorNum: 0,
+                        duracao: "Noite (20h)",
+                        mapKey: "expogramado"
+                    }
+                ]
+            },
+            {
+                id: "dia6",
+                data: "05/11 (Terça-feira)",
+                titulo: "NBA Park, Centro Histórico a Pé & Caminho das Luzes",
+                resumo: "Manhã no NBA Park, tour gratuito pelo centro, Caminho das Luzes (19h) e Fondue",
+                atividades: [
+                    {
+                        id: "d6_a1",
+                        hora: "09:30",
+                        nome: "NBA Park Gramado",
+                        desc: "Parque temático oficial da NBA com desafios de arremesso, museu histórico, shows de mascotes e loja oficial.",
+                        preco: "R$ 159,00",
+                        valorNum: 159.00,
+                        duracao: "Em torno de 3 horas",
+                        mapKey: "nba_park"
+                    },
+                    {
+                        id: "d6_a2",
+                        hora: "14:30",
+                        nome: "Passeio a Pé: Catedral São Pedro, Praça das Etnias e Rua Torta",
+                        desc: "Caminhada tranquila pelas atrações gratuitas do centro: visite a Catedral de pedra basáltica, as casinhas coloniais da Praça das Etnias e tire fotos na famosa Rua Torta.",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "Tarde",
+                        mapKey: "rua_torta"
+                    },
+                    {
+                        id: "d6_a3",
+                        hora: "19:00",
+                        nome: "Caminho das Luzes (Especial de Terça-feira)",
+                        desc: "Cortejo iluminado gratuito do Natal Luz que acontece exclusivamente às terças-feiras às 19h.",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "1 hora",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d6_a4",
+                        hora: "20:30",
+                        nome: "Jantar Especial: Noite de Fondue",
+                        desc: "Sequência tradicional de fondue (queijo, carnes na pedra e chocolate). Dica da planilha: comprar promoção no Laçador de Ofertas!",
+                        preco: "Laçador de Ofertas",
+                        valorNum: 0,
+                        duracao: "Noite",
+                        mapKey: "rua_coberta"
+                    }
+                ]
+            },
+            {
+                id: "dia7",
+                data: "06/11 (Quarta-feira)",
+                titulo: "Rua Coberta, Vila de Natal & Cafeterias",
+                resumo: "Dia tranquilo para aproveitar os shows gratuitos, feirinha natalina e Quiero Café",
+                atividades: [
+                    {
+                        id: "d7_a1",
+                        hora: "10:00",
+                        nome: "Vila de Natal & Palco Rua Coberta (11h)",
+                        desc: "Explore a Vila de Natal com artesãos locais e Casa do Papai Noel (aberta das 9h às 21h) e assista à apresentação gratuita das 11h no Palco Rua Coberta.",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "Manhã",
+                        mapKey: "vila_natal"
+                    },
+                    {
+                        id: "d7_a2",
+                        hora: "15:30",
+                        nome: "Lanche da Tarde no Quiero Café & Show das 17h",
+                        desc: "Pausa deliciosa na cafeteria Quiero Café (ou outras do centro) seguida da apresentação das 17h no Palco Rua Coberta.",
+                        preco: "Livre",
+                        valorNum: 0,
+                        duracao: "Tarde",
+                        mapKey: "quiero_cafe"
+                    }
+                ]
+            },
+            {
+                id: "dia8",
+                data: "07/11 (Quinta-feira)",
+                titulo: "Parque do Caracol & Espetáculo Nativitaten",
+                resumo: "Natureza exuberante em Canela pela manhã e show das águas às 20h",
+                atividades: [
+                    {
+                        id: "d8_a1",
+                        hora: "09:30",
+                        nome: "Parque do Caracol (Canela)",
+                        desc: "Para conhecer o parque por dentro, mirantes ecológicos, observatório panorâmico e trilhas em meio às araucárias.",
+                        preco: "R$ 179,90",
+                        valorNum: 179.90,
+                        duracao: "Dura 3 horas",
+                        mapKey: "caracol"
+                    },
+                    {
+                        id: "d8_a2",
+                        hora: "20:00",
+                        nome: "Espetáculo Nativitaten (Quinta ou Sábado às 20h)",
+                        desc: "Grandioso show noturno do Natal Luz cercado por água, fogos de artifício, chamas e cantores líricos.",
+                        preco: "R$ 470,00",
+                        valorNum: 470.00,
+                        duracao: "Noite (20h)",
+                        mapKey: "nativitaten"
+                    }
+                ]
+            },
+            {
+                id: "dia9",
+                data: "08/11 (Sexta-feira)",
+                titulo: "Ensaio Fotográfico com a Eveline, Compras & Parque Lumini",
+                resumo: "Fotos profissionais, compras de chocolates/malhas e noite iluminada",
+                atividades: [
+                    {
+                        id: "d9_a1",
+                        hora: "09:00",
+                        nome: "Ensaio Fotográfico com a Eveline",
+                        desc: "Manhã perfeita para fazer o ensaio fotográfico com a Eveline (super elogiada na planilha por deixar à vontade e levar em lugares extras!).",
+                        preco: "A combinar",
+                        valorNum: 0,
+                        duracao: "Manhã",
+                        mapKey: "lago_negro"
+                    },
+                    {
+                        id: "d9_a2",
+                        hora: "14:30",
+                        nome: "Compras de Chocolates, Malhas & Parada de Natal (15h)",
+                        desc: "Tarde livre para comprar lembrancinhas no centro, rever a Parada de Natal às 15h e se despedir dos seus lugares favoritos.",
+                        preco: "Gratuito",
+                        valorNum: 0,
+                        duracao: "Tarde",
+                        mapKey: "rua_coberta"
+                    },
+                    {
+                        id: "d9_a3",
+                        hora: "19:30",
+                        nome: "Parque Lumini (Passeio Noturno)",
+                        desc: "Atração noturna de luzes listada na planilha para fechar as noites na Serra Gaúcha com chave de ouro.",
+                        preco: "R$ 119,90",
+                        valorNum: 119.90,
+                        duracao: "Noite",
+                        mapKey: "lago_negro"
+                    }
+                ]
+            },
+            {
+                id: "dia10",
+                data: "09/11 (Segunda-feira - Retorno)",
+                titulo: "Check-out de Madrugada & Viagem de Volta",
+                resumo: "Saída às 05:00 da manhã",
+                atividades: [
+                    {
+                        id: "d10_a1",
+                        hora: "05:00",
+                        nome: "Check-out no Hotel e Partida (05h da manhã)",
+                        desc: "Despertar cedo, conferência de bagagens/chocolates e retorno às 5h da manhã. Boa viagem de volta para casa!",
+                        preco: "Retorno",
+                        valorNum: 0,
+                        duracao: "Madrugada / Manhã",
+                        mapKey: "rua_coberta"
+                    }
+                ]
+            }
+        ];
+
+        // 3. Variáveis de Estado e Persistência
+        const STORAGE_KEY = 'gramado_roteiro_carto_v3';
+        const FONT_SCALE_KEY = 'gramado_roteiro_font_scale';
+        let savedState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        let mapInstance = null;
+        let mapMarkers = {};
+        let lastFocusedActivityId = null;
+
+        // 3.1 Controle de Acessibilidade: Tamanho da Fonte (Padrão / Grande / Maior)
+        function setFontScale(scale) {
+            const htmlEl = document.documentElement;
+            htmlEl.classList.remove('font-scale-lg', 'font-scale-xl');
+            if (scale === 'lg') htmlEl.classList.add('font-scale-lg');
+            if (scale === 'xl') htmlEl.classList.add('font-scale-xl');
+
+            localStorage.setItem(FONT_SCALE_KEY, scale);
+
+            ['normal', 'lg', 'xl'].forEach(key => {
+                const btn = document.getElementById(`font-btn-${key}`);
+                if (!btn) return;
+                if (key === scale) {
+                    btn.className = 'flex-1 sm:flex-initial min-h-[40px] px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition bg-serra-vinho text-white shadow-sm';
+                    btn.setAttribute('aria-pressed', 'true');
+                } else {
+                    btn.className = 'flex-1 sm:flex-initial min-h-[40px] px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition text-gray-700 hover:bg-serra-cremeDark/60';
+                    btn.setAttribute('aria-pressed', 'false');
+                }
+            });
+        }
+
+        // 4. Inicialização do Mapa com CARTO Voyager (Zero bloqueios 403)
+        function initMap() {
+            mapInstance = L.map('map', {
+                scrollWheelZoom: false, // Evita prender o scroll da página ao rolar no celular/desktop
+                zoomControl: true,
+                tap: false
+            }).setView([-29.3768, -50.8650], 13);
+
+            // Tile Layer da CARTO Voyager com API Key
+            const CARTO_API_KEY = 'cb1_4ui1_1_4a1abb0c89654fb03784ad5e';
+            L.tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${CARTO_API_KEY}`, {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(mapInstance);
+
+            // Cria marcadores customizados para cada ponto turístico
+            Object.keys(locaisMapa).forEach(key => {
+                const local = locaisMapa[key];
+                const gpsUrl = `https://maps.google.com/?q=${local.lat},${local.lng}`;
+
+                const customIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div class="custom-pin" style="background-color: ${local.cor};">
+                              <i class="fa-solid ${local.icone}"></i>
+                           </div>`,
+                    iconSize: [38, 38],
+                    iconAnchor: [19, 38],
+                    popupAnchor: [0, -38]
+                });
+
+                const marker = L.marker([local.lat, local.lng], { icon: customIcon }).addTo(mapInstance);
+                
+                marker.bindPopup(`
+                    <div class="min-w-[220px] max-w-[265px]">
+                        <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 text-amber-900 inline-block mb-1">
+                            ${local.categoria}
+                        </span>
+                        <h4 class="font-bold text-gray-900 text-sm mb-1">${local.nome}</h4>
+                        <p class="text-xs text-gray-700 leading-relaxed mb-2.5">${local.desc}</p>
+                        <a href="${gpsUrl}" target="_blank" rel="noopener noreferrer"
+                           class="w-full min-h-[38px] bg-serra-verde hover:bg-serra-verdeLight text-white font-bold text-xs py-2 px-3 rounded-lg flex items-center justify-center gap-1.5 no-underline shadow-sm">
+                            <i class="fa-solid fa-location-arrow"></i> Abrir no GPS / Maps
+                        </a>
+                    </div>
+                `);
+
+                mapMarkers[key] = marker;
+            });
+        }
+
+        // 5. Função de Zoom Suave (flyTo) ao clicar em "Ver no Mapa"
+        function focusOnMap(mapKey, event, returnCardId, returnTitle) {
+            if (event) event.stopPropagation();
+            const local = locaisMapa[mapKey];
+            const marker = mapMarkers[mapKey];
+            
+            if (local && marker && mapInstance) {
+                if (returnCardId) {
+                    lastFocusedActivityId = returnCardId;
+                    const backBar = document.getElementById('back-to-activity-bar');
+                    const backText = document.getElementById('back-to-activity-text');
+                    if (backBar && backText) {
+                        backText.textContent = returnTitle ? `Voltar para: ${returnTitle}` : 'Voltar para a atração no roteiro';
+                        backBar.classList.remove('hidden');
+                    }
+                }
+
+                document.getElementById('map-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('active-pin-label').textContent = `Focando em: ${local.nome}`;
+                
+                setTimeout(() => {
+                    mapInstance.flyTo([local.lat, local.lng], 16, {
+                        animate: true,
+                        duration: 1.2
+                    });
+                    setTimeout(() => {
+                        marker.openPopup();
+                    }, 900);
+                }, 250);
+            }
+        }
+
+        function returnToLastActivity() {
+            if (!lastFocusedActivityId) return;
+            const el = document.getElementById(lastFocusedActivityId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-serra-vinho');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-serra-vinho'), 1800);
+            }
+        }
+
+        // Filtros rápidos de câmera do mapa
+        function filterMapRegion(regiao) {
+            if (!mapInstance) return;
+            mapInstance.closePopup();
+            if (regiao === 'gramado') {
+                mapInstance.flyTo([-29.3815, -50.8755], 15, { animate: true, duration: 1.1 });
+                document.getElementById('active-pin-label').textContent = 'Visualizando: Centro de Gramado';
+            } else if (regiao === 'canela') {
+                mapInstance.flyTo([-29.3350, -50.8150], 13, { animate: true, duration: 1.1 });
+                document.getElementById('active-pin-label').textContent = 'Visualizando: Região de Canela';
+            }
+        }
+
+        function resetMapZoom() {
+            if (!mapInstance) return;
+            mapInstance.closePopup();
+            mapInstance.flyTo([-29.3650, -50.8550], 12, { animate: true, duration: 1.1 });
+            document.getElementById('active-pin-label').textContent = 'Exibindo todos os 20 pontos do roteiro';
+        }
+
+        // 6. Renderização do Acordeão e Cálculo de Estatísticas
+        function renderItinerary() {
+            const container = document.getElementById('itinerary-container');
+            container.innerHTML = '';
+
+            let freeCount = 0;
+            let paidCount = 0;
+            let totalCost = 0;
+
+            roteiroData.forEach((dia, index) => {
+                const totalDia = dia.atividades.length;
+                const concluidasDia = dia.atividades.filter(a => savedState[a.id]).length;
+                const diaCompleto = totalDia > 0 && concluidasDia === totalDia;
+
+                // Mantém o primeiro e segundo dias abertos inicialmente
+                const isOpen = index <= 1;
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl shadow-sm border transition-all duration-300 ${diaCompleto ? 'border-emerald-600/60 bg-emerald-50/10' : 'border-serra-cremeDark'}`;
+
+                let atividadesHTML = '';
+                dia.atividades.forEach(ativ => {
+                    // Contabiliza estatísticas financeiras
+                    if (ativ.valorNum > 0) {
+                        paidCount++;
+                        totalCost += ativ.valorNum;
+                    } else if (ativ.preco.toLowerCase().includes('gratuito')) {
+                        freeCount++;
+                    }
+
+                    const checked = savedState[ativ.id] ? 'checked' : '';
+                    const isGratuito = ativ.preco.toLowerCase().includes('gratuito');
+                    const isPagoTabelado = ativ.valorNum > 0;
+
+                    let badgeClass = 'bg-gray-100 text-gray-800 border-gray-300';
+                    if (isGratuito) {
+                        badgeClass = 'bg-emerald-100 text-emerald-900 border-emerald-300';
+                    } else if (isPagoTabelado) {
+                        badgeClass = 'bg-amber-100 text-amber-950 border-amber-300';
+                    }
+
+                    const localObj = locaisMapa[ativ.mapKey];
+                    const nomeLocalCurto = localObj ? localObj.nome.split('(')[0].trim() : 'Mapa';
+                    const gpsLink = localObj ? `https://maps.google.com/?q=${localObj.lat},${localObj.lng}` : null;
+                    const tituloEscapado = ativ.nome.replace(/'/g, "\\'");
+
+                    atividadesHTML += `
+                        <div id="card-${ativ.id}" class="p-4 rounded-xl border transition-all ${checked ? 'bg-gray-50/90 border-gray-200 opacity-75' : 'bg-serra-creme/70 border-serra-cremeDark'}">
+                            <div class="flex items-start gap-3">
+                                <label for="${ativ.id}" class="pt-0.5 pr-1 cursor-pointer flex items-center justify-center shrink-0" aria-label="Marcar ${ativ.nome} como concluído">
+                                    <input type="checkbox" id="${ativ.id}" ${checked} 
+                                        onchange="toggleActivity('${ativ.id}')"
+                                        class="h-6 w-6 rounded-md border-gray-400 text-serra-verde focus:ring-serra-vinho cursor-pointer accent-serra-verde">
+                                </label>
+                                
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                                        <label for="${ativ.id}" class="font-bold text-gray-900 cursor-pointer flex flex-wrap items-center gap-2 text-base leading-snug ${checked ? 'line-through text-gray-500' : ''}">
+                                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-md bg-serra-vinho text-white shadow-sm">
+                                                <i class="fa-regular fa-clock mr-1"></i>${ativ.hora}
+                                            </span>
+                                            <span>${ativ.nome}</span>
+                                        </label>
+                                        <span class="text-xs px-2.5 py-1 rounded-full font-bold border ${badgeClass}">
+                                            ${ativ.preco}
+                                        </span>
+                                    </div>
+                                    
+                                    <p class="text-sm text-gray-700 mb-3 leading-relaxed ${checked ? 'line-through text-gray-500' : ''}">
+                                        ${ativ.desc}
+                                    </p>
+                                    
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs sm:text-sm text-gray-700 pt-3 border-t border-serra-cremeDark">
+                                        <span class="flex items-center gap-1.5">
+                                            <i class="fa-solid fa-hourglass-half text-serra-vinho"></i>
+                                            <span>Duração: <strong class="text-gray-900">${ativ.duracao}</strong></span>
+                                        </span>
+                                        ${ativ.mapKey ? `
+                                        <div class="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto">
+                                            <button onclick="focusOnMap('${ativ.mapKey}', event, 'card-${ativ.id}', '${tituloEscapado}')" class="touch-target bg-white hover:bg-serra-vinho active:scale-95 text-serra-vinho hover:text-white border border-serra-vinho/40 font-bold flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl transition shadow-sm text-xs sm:text-sm">
+                                                <i class="fa-solid fa-location-crosshairs"></i> <span>Ver no Mapa</span>
+                                            </button>
+                                            ${gpsLink ? `
+                                            <a href="${gpsLink}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="touch-target bg-serra-verde/10 hover:bg-serra-verde active:scale-95 text-serra-verde hover:text-white border border-serra-verde/30 font-bold flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl transition shadow-sm text-xs sm:text-sm">
+                                                <i class="fa-solid fa-location-arrow"></i> <span>Abrir GPS</span>
+                                            </a>
+                                            ` : ''}
+                                        </div>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <button onclick="toggleAccordion('${dia.id}')" aria-expanded="${isOpen}" class="w-full px-4 sm:px-6 py-4 text-left flex items-center justify-between hover:bg-serra-creme/40 active:bg-serra-creme/70 transition rounded-2xl focus:outline-none">
+                        <div class="flex items-start sm:items-center gap-3.5 md:gap-4 min-w-0 flex-1">
+                            <div class="h-12 w-12 shrink-0 rounded-xl flex flex-col items-center justify-center font-bold text-white shadow-sm border ${diaCompleto ? 'bg-serra-verde border-emerald-400' : 'bg-serra-vinho border-serra-dourado/50'}">
+                                <span class="text-[10px] uppercase tracking-wider opacity-90">Dia</span>
+                                <span class="text-lg leading-none">${index + 1}</span>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <span class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-serra-verde">${dia.data}</span>
+                                    <span class="text-xs px-2.5 py-0.5 rounded-full ${diaCompleto ? 'bg-emerald-100 text-emerald-900 font-bold' : 'bg-serra-creme text-gray-700 border border-serra-cremeDark font-semibold'}">
+                                        ${concluidasDia}/${totalDia} concluídos
+                                    </span>
+                                </div>
+                                <h4 class="font-playfair text-base sm:text-lg md:text-xl font-bold text-gray-900 leading-snug">${dia.titulo}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600 mt-0.5 leading-snug">${dia.resumo}</p>
+                            </div>
+                        </div>
+                        <div class="ml-3 h-10 w-10 shrink-0 rounded-full bg-serra-creme border border-serra-cremeDark flex items-center justify-center text-serra-vinho">
+                            <i id="icon-${dia.id}" class="fa-solid fa-chevron-down transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}"></i>
+                        </div>
+                    </button>
+
+                    <div id="content-${dia.id}" class="accordion-content ${isOpen ? 'open' : ''}">
+                        <div class="px-3.5 sm:px-6 pb-5 pt-2 space-y-3.5 border-t border-gray-100">
+                            ${atividadesHTML}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Atualiza resumo financeiro
+            document.getElementById('stat-free-count').textContent = `${freeCount} atrações`;
+            document.getElementById('stat-paid-count').textContent = `${paidCount} passeios`;
+            document.getElementById('stat-total-cost').textContent = totalCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            updateProgressBar();
+        }
+
+        // 7. Funções de Interação (Acordeões e Progresso)
+        function toggleAccordion(diaId) {
+            const content = document.getElementById(`content-${diaId}`);
+            const icon = document.getElementById(`icon-${diaId}`);
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.classList.remove('rotate-180');
+            } else {
+                content.classList.add('open');
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        function toggleAllAccordions(expand) {
+            roteiroData.forEach(dia => {
+                const content = document.getElementById(`content-${dia.id}`);
+                const icon = document.getElementById(`icon-${dia.id}`);
+                if (expand) {
+                    content.classList.add('open');
+                    icon.classList.add('rotate-180');
+                } else {
+                    content.classList.remove('open');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        }
+
+        function toggleActivity(ativId) {
+            savedState[ativId] = !savedState[ativId];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState));
+            
+            const openIds = roteiroData
+                .map(d => d.id)
+                .filter(id => document.getElementById(`content-${id}`)?.classList.contains('open'));
+
+            renderItinerary();
+
+            roteiroData.forEach(d => {
+                const content = document.getElementById(`content-${d.id}`);
+                const icon = document.getElementById(`icon-${d.id}`);
+                if (openIds.includes(d.id)) {
+                    content.classList.add('open');
+                    icon.classList.add('rotate-180');
+                } else {
+                    content.classList.remove('open');
+                    icon.classList.remove('rotate-180');
+                }
+            });
+        }
+
+        function updateProgressBar() {
+            let totalAtividades = 0;
+            let totalConcluidas = 0;
+
+            roteiroData.forEach(dia => {
+                dia.atividades.forEach(ativ => {
+                    totalAtividades++;
+                    if (savedState[ativ.id]) totalConcluidas++;
+                });
+            });
+
+            const percent = totalAtividades === 0 ? 0 : Math.round((totalConcluidas / totalAtividades) * 100);
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-text').textContent = `${percent}%`;
+            document.getElementById('progress-count').textContent = `${totalConcluidas}/${totalAtividades} concluídos`;
+        }
+
+        function resetProgress() {
+            if (!confirm('Deseja desmarcar todos os passeios concluídos do roteiro?')) return;
+            savedState = {};
+            localStorage.removeItem(STORAGE_KEY);
+            renderItinerary();
+        }
+
+        // Inicialização Segura
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedFontScale = localStorage.getItem(FONT_SCALE_KEY) || 'normal';
+            setFontScale(savedFontScale);
+            renderItinerary();
+            initMap();
+        });
+    </script>
+</body>
+</html>
