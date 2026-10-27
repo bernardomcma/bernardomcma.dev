@@ -491,10 +491,25 @@ h1, h2, h3 {
   flex-shrink: 0;
 }
 
+.chip__handle {
+  font-family: var(--font-num);
+  font-size: 0.84rem;
+}
+
+.chip__sub {
+  color: var(--ink-soft);
+  font-weight: 500;
+  transition: color var(--step);
+}
+
 .chip:hover {
   color: var(--lime);
   border-color: var(--lime);
   box-shadow: 3px 3px 0 var(--lime);
+}
+
+.chip:hover .chip__sub {
+  color: currentColor;
 }
 
 .chip:active {
@@ -1044,16 +1059,25 @@ a:hover .arrow { transform: translate(2px, -2px); }
   border-bottom: var(--border-w) solid var(--ink);
 }
 
-.rows a {
+.rows a,
+.rows__btn {
   display: flex;
   align-items: baseline;
   gap: 1rem;
+  width: 100%;
   padding-block: 1.15rem;
   padding-inline: 0.5rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
   transition: color 0.1s var(--step), padding-left 0.15s var(--ease-out), background-color 0.1s var(--step);
 }
 
-.rows a:hover {
+.rows a:hover,
+.rows__btn:hover {
   color: var(--lime);
   padding-left: 1rem;
   background-color: rgba(204, 255, 0, 0.04);
@@ -1067,11 +1091,24 @@ a:hover .arrow { transform: translate(2px, -2px); }
   color: var(--ink-soft);
 }
 
-.rows a:hover .rows__idx { color: var(--lime); }
+.rows a:hover .rows__idx,
+.rows__btn:hover .rows__idx { color: var(--lime); }
 
 .rows__name {
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+.rows__note {
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  transition: color 0.1s var(--step);
+}
+
+.rows__btn:hover .rows__note {
+  color: inherit;
+  opacity: 0.8;
 }
 
 .rows__handle {
@@ -1081,10 +1118,16 @@ a:hover .arrow { transform: translate(2px, -2px); }
   color: var(--ink-soft);
 }
 
-.rows a:hover .rows__handle { color: inherit; }
+.rows a:hover .rows__handle,
+.rows__btn:hover .rows__handle,
+.rows__btn.is-copied .rows__handle { color: var(--lime); }
+
+@media (max-width: 640px) {
+  .rows__note { display: none; }
+}
 
 @media (max-width: 520px) {
-  .rows__handle { display: none; }
+  .rows a .rows__handle { display: none; }
   .rows a .arrow { margin-left: auto; }
 }
 

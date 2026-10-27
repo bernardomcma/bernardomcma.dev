@@ -13,6 +13,11 @@
 (function () {
   'use strict';
 
+  try {
+    var pageLang = (document.documentElement.lang || '').toLowerCase().indexOf('pt') === 0 ? 'pt' : 'en';
+    localStorage.setItem('bm_lang', pageLang);
+  } catch (e) {}
+
   var hasObserver = 'IntersectionObserver' in window;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -104,4 +109,32 @@
     each(sections, function (section) { spy.observe(section); });
     if (hero) spy.observe(hero);
   }
+
+
+  /* -- 5. Copy handle ----------------------------------------------------- */
+
+  var copyBtns = document.querySelectorAll('[data-copy]');
+
+  each(copyBtns, function (btn) {
+    var target = btn.querySelector('[data-copy-target]');
+    var original = target ? target.textContent : '';
+    var timer = null;
+
+    btn.addEventListener('click', function () {
+      var val = btn.getAttribute('data-copy');
+      var label = btn.getAttribute('data-copy-label') || 'copied';
+      if (!val || !navigator.clipboard) return;
+
+      navigator.clipboard.writeText(val).then(function () {
+        if (!target) return;
+        clearTimeout(timer);
+        btn.classList.add('is-copied');
+        target.textContent = label;
+        timer = setTimeout(function () {
+          btn.classList.remove('is-copied');
+          target.textContent = original;
+        }, 1600);
+      });
+    });
+  });
 }());
