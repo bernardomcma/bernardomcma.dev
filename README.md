@@ -66,6 +66,7 @@ assets/
   fonts/              One self-hosted WOFF2
   img/                Open Graph image and PWA icons
   img/lockin/         Lock In UI, generated from that repo (see below)
+  img/cybercat/       CyberCAT-SimpleGUI UI, captured from a release build
 favicon.svg           The letter B, as a real glyph outline
 _headers              Cloudflare Pages caching and security headers
 robots.txt            Allows everything; points at the sitemap
@@ -102,6 +103,20 @@ existing one. Two shapes are available:
 - **`.band--data`** — stays in the site's palette, one step darker, with a
   `.flow` chain showing the architecture. Use this when the interesting part is
   how the thing is put together rather than how it looks.
+- **`.band--cyber`** — for a fork. It leads with a `.lineage` timeline (who
+  built what, when) and shows the work as a `.ledger`: what was kept from
+  upstream next to what the fork added, styled as the diff it is. The second
+  button compares against upstream on GitHub. Its accent is re-skinned by
+  redefining `--lime` on the band, the same trick `.band--lockin` uses for its
+  palette.
+
+The CyberCAT numbers (commit count, `git diff upstream..fork -- *.cs` stat,
+version) are hand-copied and go stale with every release. Refresh them from the
+GitHub compare API:
+
+```bash
+gh api repos/Deweh/CyberCAT-SimpleGUI/compare/master...bernardomcma:CyberCAT-SimpleGUI:master --jq '.ahead_by, ([.files[] | select(.filename|endswith(".cs"))] | length, (map(.additions)|add), (map(.deletions)|add))'
+```
 
 Keep project write-ups at the level of "what it is and how it's built". The
 Financial PBI section deliberately says nothing about the shape of the report or
@@ -136,6 +151,17 @@ Two things that cost time, worth writing down:
   a `locale`, but `make-shots.html` doesn't forward it. Passing
   `locale: params.get('locale')` into `installChromeStub` makes
   `&locale=pt_BR` work, which is where `*-pt.png` came from.
+
+### CyberCAT screenshot
+
+`assets/img/cybercat/saves.webp` is the v0.29 release build (from the GitHub
+release zip, with `config.json` set to `{ "Theme": 2 }` for the dark theme),
+captured with `PrintWindow` and cropped to the top of the window. WebP rather
+than PNG because the save thumbnails are photographic: ~115 KB instead of ~1.5 MB.
+
+The editor sizes its window to fit the whole save list, which runs taller than
+the screen; resizing it before the list has loaded leaves the layout broken.
+Let it load, then crop.
 
 ### Adding experience
 

@@ -1007,6 +1007,204 @@ a:hover .arrow { transform: translate(2px, -2px); }
 
 .flow .arrow-r { color: var(--ink-soft); }
 
+/* -- CyberCAT: a fork, so the band is honest about lineage ----------------
+   Same dark system, but the accent swaps to the Cyberpunk yellow the editor
+   itself uses. Overriding --lime here re-skins every shared component
+   (label square, primary button, focus-adjacent accents) without new rules. */
+
+.band--cyber {
+  --lime: #fcee0a;
+  --on-lime: #0a0a0a;
+
+  background-color: var(--paper);
+  border-top: var(--border-w) solid var(--lime);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(252, 238, 10, 0.025) 0 2px,
+    transparent 2px 14px
+  );
+}
+
+.band--cyber h3 {
+  font-size: clamp(1.65rem, 1.3rem + 1.3vw, 2.25rem);
+}
+
+.cyber__fork {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.6rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--lime);
+  border-radius: var(--radius);
+  font-family: var(--font-num);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: 0.45em;
+  color: var(--lime);
+}
+
+.cyber__grid {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 820px) {
+  .cyber__grid {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 3rem;
+  }
+}
+
+/* Lineage: who built what, when. The fork is the last two stops. */
+.lineage {
+  display: grid;
+  gap: 0;
+}
+
+.lineage__item {
+  position: relative;
+  padding: 0 0 1.15rem 1.5rem;
+  border-left: 2px solid var(--ink-rule);
+}
+
+.lineage__item:last-child { padding-bottom: 0; border-left-color: transparent; }
+
+.lineage__item::before {
+  content: '';
+  position: absolute;
+  top: 0.3rem;
+  left: -0.4rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 2px solid var(--ink-soft);
+  background-color: var(--paper);
+}
+
+/* The stall between upstream's last commit and the fork. */
+.lineage__item--gap { border-left-style: dashed; }
+
+.lineage__item--mine { border-left-color: var(--lime); }
+.lineage__item--mine::before {
+  border-color: var(--ink);
+  background-color: var(--lime);
+}
+
+.lineage__when {
+  display: block;
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.lineage__item--mine .lineage__when { color: var(--lime); }
+
+.lineage__what {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.lineage__what a {
+  text-decoration: underline;
+  text-decoration-color: var(--ink-rule);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.1s var(--step);
+}
+
+.lineage__what a:hover { text-decoration-color: var(--lime); }
+
+.cyber__shot { margin-top: 2.5rem; }
+
+/* Ledger: the work, rendered as the diff it actually is. */
+.ledger {
+  margin-top: 2.5rem;
+  border: var(--border-w) solid var(--ink);
+  border-radius: var(--radius);
+  background-color: var(--paper-sunken);
+  box-shadow: 4px 4px 0 var(--ink);
+  overflow: hidden;
+}
+
+.ledger__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.65rem 1rem;
+  border-bottom: var(--border-w) solid var(--ink);
+  background-color: var(--paper-raised);
+  font-family: var(--font-num);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.ledger__cmd { color: var(--ink); }
+.ledger__cmd::before { content: '$ '; color: var(--ink-soft); }
+
+.ledger__stat { font-variant-numeric: tabular-nums; }
+.ledger__stat .add { color: var(--lime); }
+.ledger__stat .del { color: var(--pink); }
+
+.ledger__body {
+  display: grid;
+}
+
+@media (min-width: 820px) {
+  .ledger__body { grid-template-columns: 1fr 1.35fr; }
+  .ledger__col + .ledger__col { border-left: 1px solid var(--ink-faint); }
+}
+
+.ledger__col { padding: 1rem 0 1.1rem; }
+
+@media (max-width: 819px) {
+  .ledger__col + .ledger__col { border-top: 1px solid var(--ink-faint); }
+}
+
+.ledger__title {
+  padding: 0 1rem 0.6rem;
+  font-family: var(--font-num);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ledger__line {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  padding: 0.18rem 1rem 0.18rem 0.5rem;
+  font-family: var(--font-num);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.ledger__line::before {
+  content: attr(data-sign);
+  text-align: center;
+  font-weight: 700;
+}
+
+.ledger__line--add {
+  background-color: rgba(252, 238, 10, 0.06);
+  color: var(--ink);
+}
+
+.ledger__line--add::before { color: var(--lime); }
+.ledger__line--mod::before { color: var(--lime); opacity: 0.6; }
+
 /* -- Studying ------------------------------------------------------------ */
 
 .edu {

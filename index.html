@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Bernardo Martins - software, data, BI</title>
-<meta name="description" content="Bernardo Martins builds software and works with data and BI. Studying Information Systems at UFOP. Projects: Lock In, a published Chrome extension for focus sessions, and Financial PBI, a personal data and BI system built around his own finances.">
+<meta name="description" content="Bernardo Martins builds software and works with data and BI. Studying Information Systems at UFOP. Projects: Lock In, a published Chrome extension for focus sessions; Financial PBI, a personal data and BI system built around his own finances; and his fork of CyberCAT-SimpleGUI, a Cyberpunk 2077 save editor.">
 <meta name="author" content="Bernardo Martins">
 <meta name="theme-color" content="#14120f">
 
@@ -38,7 +38,7 @@
 <link rel="manifest" href="/site.webmanifest">
 
 <link rel="preload" href="/assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/main.css?v=2">
+<link rel="stylesheet" href="/assets/css/main.css?v=3">
 
 <script>document.documentElement.classList.add('js');</script>
 
@@ -63,7 +63,8 @@
     "Business Intelligence",
     "Python",
     "SQL",
-    "JavaScript"
+    "JavaScript",
+    "C#"
   ]
 }
 </script>
@@ -155,6 +156,10 @@
             <dt>Shipped</dt>
             <dd>Lock In · Financial PBI</dd>
           </div>
+          <div class="spec-row">
+            <dt>Maintaining</dt>
+            <dd>CyberCAT-SimpleGUI</dd>
+          </div>
         </dl>
       </aside>
     </div>
@@ -174,7 +179,7 @@
           <p>I'm studying Information Systems at UFOP, where I've been getting deeper into software, data and BI. I'm expected to graduate in 2028.</p>
           <p>Most of what I do revolves around <strong>Python</strong>, <strong>SQL</strong> and <strong>JavaScript</strong>, usually building things to solve problems I actually have.</p>
           <p>I also spent some time in <strong>Toronto, Canada</strong>, where I had the chance to study and experience life somewhere very different from home.</p>
-          <p>That's pretty much how I ended up with the two projects below: one blocks the sites I kept going back to, the other runs my finances.</p>
+          <p>That's pretty much how I ended up with the projects below: one blocks the sites I kept going back to, one runs my finances, and one is a game save editor I liked too much to let it stall.</p>
         </div>
 
         <aside class="about__specs box" aria-label="Technical stack and background">
@@ -183,6 +188,7 @@
             <span class="tag tag--accent">Python</span>
             <span class="tag tag--accent">SQL</span>
             <span class="tag tag--accent">JavaScript</span>
+            <span class="tag">C# / .NET</span>
             <span class="tag">PostgreSQL</span>
             <span class="tag">Power BI</span>
             <span class="tag">DAX</span>
@@ -301,6 +307,104 @@
           <p class="flow" role="img" aria-label="Architecture: bots into PostgreSQL, processed with Python, back into PostgreSQL, then read by Power BI.">
             <span class="flow__node"><span class="flow__idx">01</span>Bots</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">02</span>PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">03</span>Python</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">04</span>PostgreSQL</span><span class="arrow-r" aria-hidden="true"></span><span class="flow__node"><span class="flow__idx">05</span>Power BI</span>
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CyberCAT-SimpleGUI - a fork, so the band leads with lineage and shows
+         the work as a diff against upstream instead of claiming the whole thing. -->
+    <div class="band band--cyber">
+      <div class="shell">
+        <div class="reveal">
+          <div class="cyber__grid">
+            <div>
+              <p class="label" style="margin-bottom: 0.75rem;">Cyberpunk 2077 Save Editor</p>
+              <h3>CyberCAT-SimpleGUI <span class="cyber__fork">Fork</span></h3>
+
+              <div class="prose measure project__body">
+                <p>I didn't start this one. <strong>Deweh</strong> wrote it in 2021 on top of CyberCAT, and <strong>seberoth</strong> kept it working through the 2.x patches until mid-2025. I really like it, but kept running into what it couldn't do - so I forked it and started filling in the gaps.</p>
+                <p>Now it opens saves from a browser, edits perks, cyberware and vehicles, backs up before it writes, and has tests and CI behind it.</p>
+              </div>
+
+              <p class="project__meta">Windows desktop <span aria-hidden="true">·</span> C# <span aria-hidden="true">·</span> .NET 10 <span aria-hidden="true">·</span> WinForms <span aria-hidden="true">·</span> v0.29</p>
+
+              <p class="project__actions">
+                <a class="btn btn--primary" href="https://github.com/bernardomcma/CyberCAT-SimpleGUI" target="_blank" rel="noopener noreferrer">
+                  My fork<span class="visually-hidden"> on GitHub (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+                </a>
+                <a class="btn" href="https://github.com/Deweh/CyberCAT-SimpleGUI/compare/master...bernardomcma:CyberCAT-SimpleGUI:master" target="_blank" rel="noopener noreferrer">
+                  Compare with upstream<span class="visually-hidden"> on GitHub (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+                </a>
+              </p>
+            </div>
+
+            <ol class="lineage" aria-label="Project history">
+              <li class="lineage__item">
+                <span class="lineage__when">2021</span>
+                <span class="lineage__what"><a href="https://github.com/Deweh/CyberCAT-SimpleGUI" target="_blank" rel="noopener noreferrer">Deweh<span class="visually-hidden"> (opens in a new tab)</span></a> starts it</span>
+              </li>
+              <li class="lineage__item">
+                <span class="lineage__when">2022 - 2025</span>
+                <span class="lineage__what">seberoth keeps it alive from 1.5 to 2.x</span>
+              </li>
+              <li class="lineage__item lineage__item--gap">
+                <span class="lineage__when">Jul 2025</span>
+                <span class="lineage__what">Last upstream commit</span>
+              </li>
+              <li class="lineage__item lineage__item--mine">
+                <span class="lineage__when">2026</span>
+                <span class="lineage__what">I fork it - 32 commits so far</span>
+              </li>
+              <li class="lineage__item lineage__item--mine">
+                <span class="lineage__when">v0.29</span>
+                <span class="lineage__what">First release from the fork</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Real v0.29 release build, dark theme, on real saves. -->
+          <figure class="shot cyber__shot">
+            <img src="/assets/img/cybercat/saves.webp" width="1390" height="678" loading="lazy" decoding="async"
+                 alt="The editor's start page in its dark theme: a grid of Cyberpunk 2077 saves, each with its screenshot, level, life path, play time and patch.">
+            <figcaption class="shot__cap">
+              <span><strong>Fig. 01</strong> // Save Browser</span>
+              <span>v0.29 · Dark Theme</span>
+            </figcaption>
+          </figure>
+
+          <div class="ledger">
+            <p class="ledger__head">
+              <span class="ledger__cmd">git diff upstream..fork -- *.cs</span>
+              <span class="ledger__stat">51 files <span class="add">+5,140</span> <span class="del">−3,191</span></span>
+            </p>
+            <div class="ledger__body">
+              <div class="ledger__col">
+                <p class="ledger__title">Kept from upstream</p>
+                <ul role="list">
+                  <li class="ledger__line" data-sign=" ">Save parsing (CyberCAT + WolvenKit)</li>
+                  <li class="ledger__line" data-sign=" ">Appearance presets</li>
+                  <li class="ledger__line" data-sign=" ">Item quantity, flags &amp; mod tree</li>
+                  <li class="ledger__line" data-sign=" ">Quest facts &amp; fast travel</li>
+                  <li class="ledger__line" data-sign=" ">Saved data from popular mods</li>
+                  <li class="ledger__line ledger__line--mod" data-sign="~">Inventory &amp; player stats, reworked</li>
+                </ul>
+              </div>
+              <div class="ledger__col">
+                <p class="ledger__title">Added by me</p>
+                <ul role="list">
+                  <li class="ledger__line ledger__line--add" data-sign="+">Save browser as the start page</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Perks editor for the 2.0 skill trees</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Cyberware in any slot, extra capacity</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Vehicles: unlock / lock, with names</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Stash moves, bulk Tier 5++ &amp; quantity</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">In-game item names, EN &amp; PT-BR</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Backups + verify before overwriting</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Dark theme, Patch 2.5 support</li>
+                  <li class="ledger__line ledger__line--add" data-sign="+">Round-trip tests, CI releases, logs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
