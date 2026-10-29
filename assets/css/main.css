@@ -1122,8 +1122,6 @@ a:hover .arrow { transform: translate(2px, -2px); }
 
 .lineage__what a:hover { text-decoration-color: var(--lime); }
 
-.cyber__shot { margin-top: 2.5rem; }
-
 /* Ledger: the work, rendered as the diff it actually is. */
 .ledger {
   margin-top: 2.5rem;

@@ -153,16 +153,11 @@ Two things that cost time, worth writing down:
   `locale: params.get('locale')` into `installChromeStub` makes
   `&locale=pt_BR` work, which is where `*-pt.png` came from.
 
-### CyberCAT screenshot
+### CyberCAT screenshots
 
-`assets/img/cybercat/saves.webp` is the v0.29 release build (from the GitHub
-release zip, with `config.json` set to `{ "Theme": 2 }` for the dark theme),
-captured with `PrintWindow` and cropped to the top of the window. WebP rather
-than PNG because the save thumbnails are photographic: ~115 KB instead of ~1.5 MB.
-
-The editor sizes its window to fit the whole save list, which runs taller than
-the screen; resizing it before the list has loaded leaves the layout broken.
-Let it load, then crop.
+`assets/img/cybercat/saves.webp` and `assets/img/cybercat/stats.webp` are
+captured from the editor in its Cyberpunk HUD theme (Save Browser and Player
+Stats views) and encoded as WebP (~95 KB and ~64 KB).
 
 ### Adding experience
 
