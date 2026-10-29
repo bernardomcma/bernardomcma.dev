@@ -137,4 +137,51 @@
       });
     });
   });
+
+
+  /* -- 6. Live CyberCAT fork stats ----------------------------------------
+     The HTML carries the numbers at the time of the last edit so the section
+     is complete with JS disabled or when the GitHub API rate-limits. When the
+     API responds, replace them with the current compare + latest release. */
+
+  var commitsEl = document.querySelector('[data-cyber-commits]');
+
+  if (commitsEl && 'fetch' in window) {
+    var numFmt = new Intl.NumberFormat(pageLang === 'pt' ? 'pt-BR' : 'en-US');
+
+    fetch('https://api.github.com/repos/Deweh/CyberCAT-SimpleGUI/compare/master...bernardomcma:CyberCAT-SimpleGUI:master')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || typeof d.ahead_by !== 'number' || !Array.isArray(d.files)) return;
+
+        var files = 0, add = 0, del = 0;
+        each(d.files, function (f) {
+          if (f.filename && /\.cs$/.test(f.filename)) {
+            files++;
+            add += f.additions || 0;
+            del += f.deletions || 0;
+          }
+        });
+
+        commitsEl.textContent = numFmt.format(d.ahead_by);
+        var filesEl = document.querySelector('[data-cyber-files]');
+        var addEl = document.querySelector('[data-cyber-add]');
+        var delEl = document.querySelector('[data-cyber-del]');
+        if (filesEl) filesEl.textContent = numFmt.format(files);
+        if (addEl) addEl.textContent = '+' + numFmt.format(add);
+        if (delEl) delEl.textContent = '\u2212' + numFmt.format(del);
+      })
+      .catch(function () {});
+
+    fetch('https://api.github.com/repos/bernardomcma/CyberCAT-SimpleGUI/releases/latest')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.tag_name) return;
+        var ver = d.tag_name.replace(/^v?(\d+\.\d+)\.0$/, 'v$1');
+        each(document.querySelectorAll('[data-cyber-ver]'), function (el) {
+          el.textContent = ver;
+        });
+      })
+      .catch(function () {});
+  }
 }());

@@ -111,8 +111,9 @@ existing one. Two shapes are available:
   palette.
 
 The CyberCAT numbers (commit count, `git diff upstream..fork -- *.cs` stat,
-version) are hand-copied and go stale with every release. Refresh them from the
-GitHub compare API:
+version) are fetched live from the GitHub API by `main.js`, with the values in
+the HTML kept as the fallback when JS is off or the API is rate-limited. To
+refresh the fallback by hand:
 
 ```bash
 gh api repos/Deweh/CyberCAT-SimpleGUI/compare/master...bernardomcma:CyberCAT-SimpleGUI:master --jq '.ahead_by, ([.files[] | select(.filename|endswith(".cs"))] | length, (map(.additions)|add), (map(.deletions)|add))'
