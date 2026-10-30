@@ -858,6 +858,10 @@ a:hover .arrow { transform: translate(2px, -2px); }
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
+
+  .shot--wide {
+    grid-column: 1 / -1;
+  }
 }
 
 .shot {

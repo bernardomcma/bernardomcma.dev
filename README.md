@@ -155,9 +155,8 @@ Two things that cost time, worth writing down:
 
 ### CyberCAT screenshots
 
-`assets/img/cybercat/saves.webp` and `assets/img/cybercat/stats.webp` are
-captured from the editor in its Cyberpunk HUD theme (Save Browser and Player
-Stats views) and encoded as WebP (~95 KB and ~64 KB).
+`assets/img/cybercat/*.webp` (`saves.webp`, `stats.webp`, `cyberware.webp`)
+are captured from the editor in its Cyberpunk HUD theme and encoded as WebP.
 
 ### Adding experience
 
