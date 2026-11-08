@@ -11,3 +11,5 @@ desktop.ini
 
 # The site has no dependencies; this just keeps stray installs out.
 node_modules/
+
+gramado/
