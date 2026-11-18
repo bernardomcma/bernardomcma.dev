@@ -901,6 +901,14 @@ a:hover .arrow { transform: translate(2px, -2px); }
   color: var(--ink);
 }
 
+@media (max-width: 520px) {
+  .shot__cap {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+}
+
 /* -- Financial PBI: same dark system, sunken, instrument-panel ------------- */
 
 .band--data {
@@ -1010,6 +1018,21 @@ a:hover .arrow { transform: translate(2px, -2px); }
 }
 
 .flow .arrow-r { color: var(--ink-soft); }
+
+@media (max-width: 640px) {
+  .flow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+  }
+  .flow__node {
+    justify-content: center;
+  }
+  .flow .arrow-r {
+    align-self: center;
+    transform: rotate(90deg);
+  }
+}
 
 /* -- CyberCAT: a fork, so the band is honest about lineage ----------------
    Same dark system, but the accent swaps to the Cyberpunk yellow the editor
@@ -1327,7 +1350,8 @@ a:hover .arrow { transform: translate(2px, -2px); }
 }
 
 @media (max-width: 520px) {
-  .rows a .rows__handle { display: none; }
+  .rows a:not([href^="mailto:"]) .rows__handle { display: none; }
+  .rows a[href^="mailto:"] .rows__handle { font-size: 0.78rem; }
   .rows a .arrow { margin-left: auto; }
 }
 
