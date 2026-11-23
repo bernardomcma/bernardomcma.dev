@@ -128,7 +128,7 @@ a live demo) goes beside it as a plain `.btn`.
 
 ### Lock In screenshots
 
-`assets/img/lockin/*.png` is real Lock In UI, and it is reproducible from that
+`assets/img/lockin/*.webp` is real Lock In UI, and it is reproducible from that
 repo rather than copied by hand. Lock In gitignores `store/`, but it ships the
 generator, so:
 
