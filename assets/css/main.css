@@ -1230,7 +1230,13 @@ a:hover .arrow { transform: translate(2px, -2px); }
 .ledger__line--add::before { color: var(--lime); }
 .ledger__line--mod::before { color: var(--lime); opacity: 0.6; }
 
-/* -- Studying ------------------------------------------------------------ */
+/* -- Experience & Education ---------------------------------------------- */
+
+.edu-list {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 46rem;
+}
 
 .edu {
   display: grid;
@@ -1240,23 +1246,52 @@ a:hover .arrow { transform: translate(2px, -2px); }
   border-radius: var(--radius);
   background-color: var(--paper-raised);
   box-shadow: 4px 4px 0 var(--ink);
-  max-width: 42rem;
+}
+
+.edu__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
 }
 
 .edu__where {
   font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem);
 }
 
+.edu__tag {
+  font-family: var(--font-num);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.edu__tag--current {
+  color: var(--lime);
+}
+
 .edu__course {
   font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.edu__desc {
+  margin-top: 0.25rem;
+  font-size: 0.94rem;
+  line-height: 1.55;
   color: var(--ink-soft);
+  text-wrap: pretty;
 }
 
 .edu__when {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  margin-top: 0.4rem;
+  margin-top: 0.45rem;
   padding: 0.2rem 0.6rem;
   border: 1px solid var(--ink-rule);
   border-radius: var(--radius);
