@@ -38,7 +38,7 @@
 <link rel="manifest" href="/site.webmanifest">
 
 <link rel="preload" href="/assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/main.css?v=6">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
 
 <script>document.documentElement.classList.add('js');</script>
 
@@ -160,7 +160,7 @@
           </div>
           <div class="spec-row">
             <dt>Shipped</dt>
-            <dd>Lock In · Financial PBI</dd>
+            <dd>Lock In · ScrobblePress · Financial PBI</dd>
           </div>
           <div class="spec-row">
             <dt>Co-maintaining</dt>
@@ -185,7 +185,7 @@
           <p>I'm a Data &amp; Software Intern at <strong>RoqIO Labs LLC</strong> (remote) and a Bachelor of Information Systems student at <strong>UFOP</strong>, expected to graduate in 2028.</p>
           <p>Day to day I work with <strong>Python</strong>, <strong>SQL</strong> and <strong>Power BI</strong>, turning raw data into structured pipelines, automations and KPIs. Outside of work I build tools to solve problems I actually have.</p>
           <p>I also spent time studying and living in <strong>Toronto, Canada</strong>, and speak both Portuguese and English fluently.</p>
-          <p>That's pretty much how I ended up with the projects below: one blocks the sites I kept going back to, one runs my finances, and one is a game save editor where I ended up joining the official team.</p>
+          <p>That's pretty much how I ended up with the projects below: one blocks the sites I kept going back to, one runs my finances, one turns my Last.fm history into a local analytics press, and one is a game save editor where I ended up joining the official team.</p>
         </div>
 
         <aside class="about__specs box" aria-label="Technical stack and background">
@@ -198,6 +198,8 @@
             <span class="tag">PostgreSQL</span>
             <span class="tag">JavaScript</span>
             <span class="tag">C# / .NET</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">SQLite</span>
             <span class="tag">ETL Pipelines</span>
             <span class="tag">Chrome MV3</span>
             <span class="tag">Git</span>
@@ -438,6 +440,178 @@
                   <li class="ledger__line ledger__line--add" data-sign="+">Undo / redo, backups + verify, UI settings dialog</li>
                   <li class="ledger__line ledger__line--add" data-sign="+">Patch 2.5 support, round-trip tests, CI releases</li>
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ScrobblePress - runs on the project's own warm editorial newsprint
+         palette, with a live Day / Night toggle matching its UI. -->
+    <div class="band band--scrobble">
+      <div class="shell">
+        <div class="reveal">
+          <div class="scrobble__grid">
+            <div>
+              <h3 class="scrobble__head">
+                <span class="scrobble__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="scrobble__word">ScrobblePress</span>
+                <span class="scrobble__ver">v2.0</span>
+              </h3>
+
+              <p class="scrobble__title">Your entire Last.fm history, pressed locally<span class="scrobble__dot">.</span></p>
+
+              <div class="prose measure project__body">
+                <p>A local-first Last.fm analytics dashboard powered by <strong>Node.js</strong> and native <strong>SQLite</strong> (<code>node:sqlite</code>) with zero external npm dependencies. Sync directly via the Last.fm API with live <em>Now Playing</em> status or drop in a CSV export.</p>
+                <p>Four interactive views cover everything from an SVG timeline, 52-week heatmap, and 24-hour listening clock to discovery rates, <em>On This Day</em> memories, an entity deep-dive drawer, and custom album inference rules.</p>
+              </div>
+
+              <p class="project__meta">Local web app <span aria-hidden="true">·</span> Node.js 22+ <span aria-hidden="true">·</span> Native SQLite <span aria-hidden="true">·</span> Zero deps <span aria-hidden="true">·</span> Light / Dark</p>
+
+              <p class="project__actions">
+                <a class="btn btn--primary" href="https://github.com/bernardomcma/scrobblepress" target="_blank" rel="noopener noreferrer">
+                  Repository<span class="visually-hidden"> on GitHub (opens in a new tab)</span><span class="arrow" aria-hidden="true"></span>
+                </a>
+                <button type="button" class="btn scrobble__theme-btn" data-scrobble-toggle aria-pressed="false" data-label-night="Night mode" data-label-day="Day mode">
+                  <span data-scrobble-toggle-icon aria-hidden="true">&#9790;</span> <span data-scrobble-toggle-label>Night mode</span>
+                </button>
+              </p>
+            </div>
+
+            <aside class="scrobble__console" aria-label="ScrobblePress telemetry preview">
+              <div class="scrobble__console-bar">
+                <span>Press // Local_SQLite</span>
+                <span class="scrobble__live">Zero Deps</span>
+              </div>
+
+              <div class="scrobble__console-body">
+                <div>
+                  <div class="scrobble__viz-head">
+                    <span>14-Week Scrobble Matrix</span>
+                    <span class="scrobble__hm-legend" aria-hidden="true">
+                      <i class="hm-0"></i><i class="hm-1"></i><i class="hm-2"></i><i class="hm-3"></i><i class="hm-4"></i>
+                    </span>
+                  </div>
+                  <div class="scrobble__hm" role="img" aria-label="14-week daily listening heatmap sampled from ScrobblePress.">
+                    <i class="hm-4"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-3"></i><i class="hm-3"></i>
+                    <i class="hm-2"></i><i class="hm-2"></i><i class="hm-2"></i><i class="hm-1"></i><i class="hm-1"></i><i class="hm-4"></i><i class="hm-3"></i>
+                    <i class="hm-1"></i><i class="hm-2"></i><i class="hm-1"></i><i class="hm-2"></i><i class="hm-0"></i><i class="hm-3"></i><i class="hm-4"></i>
+                    <i class="hm-4"></i><i class="hm-1"></i><i class="hm-3"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-3"></i>
+                    <i class="hm-2"></i><i class="hm-2"></i><i class="hm-0"></i><i class="hm-3"></i><i class="hm-3"></i><i class="hm-2"></i><i class="hm-3"></i>
+                    <i class="hm-1"></i><i class="hm-2"></i><i class="hm-1"></i><i class="hm-3"></i><i class="hm-2"></i><i class="hm-2"></i><i class="hm-2"></i>
+                    <i class="hm-1"></i><i class="hm-1"></i><i class="hm-1"></i><i class="hm-2"></i><i class="hm-1"></i><i class="hm-2"></i><i class="hm-2"></i>
+                    <i class="hm-3"></i><i class="hm-1"></i><i class="hm-3"></i><i class="hm-2"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-3"></i>
+                    <i class="hm-3"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-4"></i><i class="hm-3"></i><i class="hm-1"></i><i class="hm-1"></i>
+                    <i class="hm-1"></i><i class="hm-2"></i><i class="hm-2"></i><i class="hm-4"></i><i class="hm-2"></i><i class="hm-1"></i><i class="hm-3"></i>
+                    <i class="hm-3"></i><i class="hm-1"></i><i class="hm-0"></i><i class="hm-0"></i><i class="hm-1"></i><i class="hm-1"></i><i class="hm-1"></i>
+                    <i class="hm-0"></i><i class="hm-1"></i><i class="hm-0"></i><i class="hm-4"></i><i class="hm-3"></i><i class="hm-4"></i><i class="hm-4"></i>
+                    <i class="hm-4"></i><i class="hm-3"></i><i class="hm-3"></i><i class="hm-3"></i><i class="hm-4"></i><i class="hm-1"></i><i class="hm-3"></i>
+                    <i class="hm-2"></i><i class="hm-1"></i><i class="hm-2"></i><i class="hm-2"></i><i class="hm-2"></i><i class="hm-3"></i><i class="hm-1"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="scrobble__viz-head">
+                    <span>24h Listening Clock</span>
+                    <span>Peak 11h · 18h</span>
+                  </div>
+                  <div class="scrobble__clock" role="img" aria-label="24-hour scrobble distribution peaking at 11h, 12h, and 18h.">
+                    <i style="--h: 29%"></i><i style="--h: 27%"></i><i style="--h: 25%"></i><i style="--h: 23%"></i>
+                    <i style="--h: 20%"></i><i style="--h: 19%"></i><i style="--h: 27%"></i><i style="--h: 41%"></i>
+                    <i style="--h: 37%"></i><i style="--h: 51%"></i><i style="--h: 77%"></i><i class="is-peak" style="--h: 100%"></i>
+                    <i class="is-peak" style="--h: 92%"></i><i style="--h: 76%"></i><i style="--h: 65%"></i><i style="--h: 70%"></i>
+                    <i style="--h: 67%"></i><i style="--h: 63%"></i><i class="is-peak" style="--h: 90%"></i><i style="--h: 79%"></i>
+                    <i style="--h: 60%"></i><i style="--h: 40%"></i><i style="--h: 36%"></i><i style="--h: 35%"></i>
+                  </div>
+                  <div class="scrobble__clock-axis" aria-hidden="true">
+                    <span>00h</span><span>06h</span><span>12h</span><span>18h</span><span>23h</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="scrobble__specs">
+                <div class="scrobble__spec">
+                  <span class="scrobble__spec-val">0</span>
+                  <span class="scrobble__spec-lbl">npm deps</span>
+                </div>
+                <div class="scrobble__spec">
+                  <span class="scrobble__spec-val">04</span>
+                  <span class="scrobble__spec-lbl">Views</span>
+                </div>
+                <div class="scrobble__spec">
+                  <span class="scrobble__spec-val">12</span>
+                  <span class="scrobble__spec-lbl">REST routes</span>
+                </div>
+                <div class="scrobble__spec">
+                  <span class="scrobble__spec-val">WAL</span>
+                  <span class="scrobble__spec-lbl">node:sqlite</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="shots">
+            <figure class="shot shot--wide">
+              <img src="/assets/img/scrobblepress/overview-light.webp"
+                   data-src-light="/assets/img/scrobblepress/overview-light.webp"
+                   data-src-dark="/assets/img/scrobblepress/overview-dark.webp"
+                   width="1200" height="1015" loading="lazy" decoding="async"
+                   alt="ScrobblePress overview showing the editorial masthead, global command filter bar, six KPI cards, and interactive SVG timeline.">
+              <figcaption class="shot__cap">
+                <span><strong>Fig. 01</strong> // Overview &amp; Timeline</span>
+                <span>KPIs · SVG · Rankings</span>
+              </figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="/assets/img/scrobblepress/habits-light.webp"
+                   data-src-light="/assets/img/scrobblepress/habits-light.webp"
+                   data-src-dark="/assets/img/scrobblepress/habits-dark.webp"
+                   width="1080" height="699" loading="lazy" decoding="async"
+                   alt="ScrobblePress Habits view with the 52-week listening calendar heatmap, 24-hour clock, and weekly rhythm bars.">
+              <figcaption class="shot__cap">
+                <span><strong>Fig. 02</strong> // Listening Habits</span>
+                <span>Heatmap · 24h Clock</span>
+              </figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="/assets/img/scrobblepress/insights-light.webp"
+                   data-src-light="/assets/img/scrobblepress/insights-light.webp"
+                   data-src-dark="/assets/img/scrobblepress/insights-dark.webp"
+                   width="1080" height="699" loading="lazy" decoding="async"
+                   alt="ScrobblePress Discoveries view displaying musical diversity metrics, new artists by year, marathon days, and On This Day memories.">
+              <figcaption class="shot__cap">
+                <span><strong>Fig. 03</strong> // Discoveries</span>
+                <span>Diversity · Milestones</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="scrobble__notes">
+            <p class="scrobble__notes-head">
+              <span>Side A // Architecture &amp; Features</span>
+              <span>Node.js 22+ · SQLite · SVG</span>
+            </p>
+            <div class="scrobble__notes-grid">
+              <div class="scrobble__note">
+                <span class="scrobble__note-num">01</span>
+                <p class="scrobble__note-title">Last.fm API + CSV Sync</p>
+                <p class="scrobble__note-desc">Full history backfill, fast incremental sync, live Now Playing pill, and drag-and-drop RFC-4180 CSV import.</p>
+              </div>
+              <div class="scrobble__note">
+                <span class="scrobble__note-num">02</span>
+                <p class="scrobble__note-title">Native SQLite WAL</p>
+                <p class="scrobble__note-desc">Runs on built-in <code>node:sqlite</code> with local persistence, deduplication, and millisecond SQL aggregations.</p>
+              </div>
+              <div class="scrobble__note">
+                <span class="scrobble__note-num">03</span>
+                <p class="scrobble__note-title">Cross-Filtered SVG</p>
+                <p class="scrobble__note-desc">Click any timeline bar, heatmap day, 24h hour, or weekday to slice all views and sync filters to the URL.</p>
+              </div>
+              <div class="scrobble__note">
+                <span class="scrobble__note-num">04</span>
+                <p class="scrobble__note-title">Drawer &amp; Album Rules</p>
+                <p class="scrobble__note-desc">Side drawer with monthly curves per artist/album/track, custom album matching rules, and CSV/JSON export.</p>
               </div>
             </div>
           </div>

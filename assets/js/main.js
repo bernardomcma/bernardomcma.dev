@@ -184,4 +184,36 @@
       })
       .catch(function () {});
   }
+
+
+  /* -- 7. ScrobblePress Day / Night theme preview ------------------------- */
+
+  var scrobbleBand = document.querySelector('.band--scrobble');
+  var scrobbleBtn = document.querySelector('[data-scrobble-toggle]');
+
+  if (scrobbleBand && scrobbleBtn) {
+    var scrobbleIcon = scrobbleBtn.querySelector('[data-scrobble-toggle-icon]');
+    var scrobbleLabel = scrobbleBtn.querySelector('[data-scrobble-toggle-label]');
+    var scrobbleImgs = scrobbleBand.querySelectorAll('img[data-src-light][data-src-dark]');
+
+    scrobbleBtn.addEventListener('click', function () {
+      var isNight = scrobbleBand.classList.toggle('is-night');
+      scrobbleBtn.setAttribute('aria-pressed', isNight ? 'true' : 'false');
+
+      if (scrobbleIcon) {
+        scrobbleIcon.textContent = isNight ? '\u2600' : '\u263E';
+      }
+      if (scrobbleLabel) {
+        var nextLabel = scrobbleBtn.getAttribute(isNight ? 'data-label-day' : 'data-label-night');
+        if (nextLabel) scrobbleLabel.textContent = nextLabel;
+      }
+
+      each(scrobbleImgs, function (img) {
+        var targetSrc = img.getAttribute(isNight ? 'data-src-dark' : 'data-src-light');
+        if (targetSrc && img.getAttribute('src') !== targetSrc) {
+          img.setAttribute('src', targetSrc);
+        }
+      });
+    });
+  }
 }());
